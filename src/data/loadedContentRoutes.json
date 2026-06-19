@@ -1,0 +1,88 @@
+{
+  "spc-parameter": {
+    "routeKey": "spc-parameter",
+    "viewKey": "SpcParameterView",
+    "title": "SPC Parameter View",
+    "kind": "Process Control module",
+    "description": "The Navigator shell routes this parameter to the Process Control module, which renders the control chart, histogram and records here. Charts are owned by that module — not the Navigator.",
+    "placeholderFields": [
+      { "label": "Chart type", "value": "X-Bar / Individuals" },
+      { "label": "Control limits", "value": "3σ (auto-reset)" },
+      { "label": "Records window", "value": "Last 46 samples" }
+    ]
+  },
+  "spc-charts": {
+    "routeKey": "spc-charts",
+    "viewKey": "SpcChartsView",
+    "title": "SPC Charts",
+    "kind": "Process Control module",
+    "description": "Control charts for the selected parameter would render in this hosted region.",
+    "placeholderFields": [
+      { "label": "Charts", "value": "X-Bar, Range, Histogram" },
+      { "label": "Source", "value": "Process Control" }
+    ]
+  },
+  "records-table": {
+    "routeKey": "records-table",
+    "viewKey": "RecordsTableView",
+    "title": "Records",
+    "kind": "Data Collection module",
+    "description": "A paginated records table would load here. Supports large, scrollable, dynamically refreshed datasets.",
+    "placeholderFields": [
+      { "label": "Columns", "value": "Status, Timestamp, Sample, X-Bar, Sigma, User" },
+      { "label": "Rows", "value": "Dynamic (server-paged)" }
+    ]
+  },
+  "violations": {
+    "routeKey": "violations",
+    "viewKey": "ViolationsView",
+    "title": "Violations",
+    "kind": "Process Control module",
+    "description": "Open and historical violations for the selected object would render here.",
+    "placeholderFields": [
+      { "label": "Open violations", "value": "1" },
+      { "label": "Rule", "value": "Beyond control limits" }
+    ]
+  },
+  "reporting-dashboard": {
+    "routeKey": "reporting-dashboard",
+    "viewKey": "ReportingDashboardView",
+    "title": "Reporting Dashboard",
+    "kind": "Reporting module",
+    "description": "A reporting dashboard would be hosted here. The Navigator only routes to it; the Reporting module owns the visuals.",
+    "placeholderFields": [
+      { "label": "Layout", "value": "Dashboard grid" },
+      { "label": "Refresh", "value": "Polling / on-demand" }
+    ]
+  },
+  "process-control": {
+    "routeKey": "process-control",
+    "viewKey": "ProcessControlView",
+    "title": "Process Control",
+    "kind": "Process Control module",
+    "description": "Process control screens for the selected scope would load in this region.",
+    "placeholderFields": [
+      { "label": "Scope", "value": "Area / parameter set" }
+    ]
+  },
+  "equipment-overview": {
+    "routeKey": "equipment-overview",
+    "viewKey": "EquipmentOverviewView",
+    "title": "Equipment Overview",
+    "kind": "Configuration module",
+    "description": "An equipment overview screen would load here with its parameters and status.",
+    "placeholderFields": [
+      { "label": "Parameters", "value": "Dynamic" }
+    ]
+  },
+  "object-summary": {
+    "routeKey": "object-summary",
+    "viewKey": "ObjectSummaryView",
+    "title": "Object Summary",
+    "kind": "Configuration module",
+    "description": "A summary view for the selected container object would load here.",
+    "placeholderFields": [
+      { "label": "Children", "value": "Loaded from hierarchy" }
+    ]
+  }
+}

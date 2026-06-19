@@ -1,0 +1,87 @@
+{
+  "configuration": [
+    {
+      "id": "site",
+      "label": "SITE / BLOCK",
+      "options": [
+        { "label": "Farmers Branch", "kind": "tag" },
+        { "label": "Livermore", "kind": "tag" },
+        { "label": "Plant 1", "kind": "tag" },
+        { "label": "Plant 2", "kind": "tag" }
+      ]
+    },
+    {
+      "id": "module",
+      "label": "MODULE / AREA",
+      "options": [
+        { "label": "Quality", "kind": "tag" },
+        { "label": "Lithography", "kind": "tag" },
+        { "label": "Lamination", "kind": "tag" },
+        { "label": "Process Control", "kind": "tag" }
+      ]
+    },
+    {
+      "id": "collection",
+      "label": "COLLECTION",
+      "options": [
+        { "label": "IQA", "kind": "tag" },
+        { "label": "Scrap", "kind": "tag" }
+      ]
+    },
+    {
+      "id": "type",
+      "label": "OBJECT TYPE",
+      "options": [
+        { "label": "Parameter", "kind": "type", "value": "param" },
+        { "label": "Equipment", "kind": "type", "value": "equip" },
+        { "label": "Chart", "kind": "type", "value": "chart" },
+        { "label": "Records", "kind": "type", "value": "records" },
+        { "label": "Report", "kind": "type", "value": "report" }
+      ]
+    },
+    {
+      "id": "status",
+      "label": "STATUS",
+      "options": [
+        { "label": "Has violations", "kind": "status", "value": "violation" },
+        { "label": "Warning", "kind": "status", "value": "warning" },
+        { "label": "Pinned", "kind": "pinned" }
+      ]
+    }
+  ],
+  "reporting": [
+    {
+      "id": "site",
+      "label": "SITE / BLOCK",
+      "options": [
+        { "label": "Farmers Branch", "kind": "tag" },
+        { "label": "Livermore", "kind": "tag" }
+      ]
+    },
+    {
+      "id": "status",
+      "label": "STATUS",
+      "options": [
+        { "label": "Has violations", "kind": "status", "value": "violation" },
+        { "label": "Warning", "kind": "status", "value": "warning" }
+      ]
+    }
+  ],
+  "processControl": [
+    {
+      "id": "module",
+      "label": "MODULE / AREA",
+      "options": [
+        { "label": "Lithography", "kind": "tag" },
+        { "label": "Lamination", "kind": "tag" }
+      ]
+    },
+    {
+      "id": "status",
+      "label": "STATUS",
+      "options": [
+        { "label": "Has violations", "kind": "status", "value": "violation" }
+      ]
+    }
+  ]
+}

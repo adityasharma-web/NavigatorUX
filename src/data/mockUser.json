@@ -1,0 +1,45 @@
+{
+  "id": "u-almeida",
+  "displayName": "Riberet Almeida",
+  "initials": "RA",
+  "email": "a.almeida@sentient.io",
+  "roles": ["SUPER-USER"],
+  "permissions": [
+    "module.home",
+    "module.configuration",
+    "module.workflow",
+    "module.dataCollection",
+    "module.processControl",
+    "module.reporting",
+    "module.dataExplorer",
+    "module.mrp",
+    "module.appSupport",
+    "security.access",
+    "admin.access",
+    "object.view",
+    "object.viewRecords",
+    "object.configureLimits"
+  ],
+  "allowedModuleIds": [
+    "home",
+    "configuration",
+    "workflow",
+    "dataCollection",
+    "processControl",
+    "reporting",
+    "dataExplorer",
+    "mrp",
+    "appSupport",
+    "security",
+    "admin",
+    "settings",
+    "help"
+  ],
+  "lockedModuleIds": ["ncmr"],
+  "preferences": {
+    "theme": "dark",
+    "scale": 100,
+    "density": "compact",
+    "pinnedObjectIds": ["leaf_sma02", "param_tx"]
+  }
+}

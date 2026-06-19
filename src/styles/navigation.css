@@ -1,0 +1,211 @@
+.rail {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  transition: width 0.15s ease;
+  overflow: hidden;
+}
+.rail__scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px 8px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rail__footer {
+  border-top: 1px solid var(--border);
+  padding: 7px 8px 8px;
+}
+
+.nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--row-h);
+  flex: none;
+  padding: 0 6px;
+  border: none;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text-2);
+  font-size: 12px;
+  font-weight: 400;
+  white-space: nowrap;
+  cursor: pointer;
+  text-align: left;
+}
+.nav-item:hover {
+  background: var(--hover);
+}
+.nav-item--active {
+  background: var(--sel);
+  color: var(--text);
+}
+.nav-item--locked {
+  color: var(--locked);
+  cursor: not-allowed;
+}
+.nav-item--locked:hover {
+  background: transparent;
+}
+.nav-item__bar {
+  position: absolute;
+  left: -8px;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  border-radius: 0 2px 2px 0;
+  background: transparent;
+}
+.nav-item--active .nav-item__bar {
+  background: var(--accent);
+}
+.nav-item__label {
+  flex: 1;
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nav-item__lock {
+  flex: none;
+  color: var(--locked);
+}
+
+/* bottom workspace button */
+.workspace-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 32px;
+  padding: 0 9px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-2);
+  font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+}
+.workspace-btn:hover {
+  background: var(--hover);
+}
+.workspace-btn--active {
+  background: var(--hover);
+  border-color: var(--sel-border);
+}
+.workspace-btn__label {
+  flex: 1;
+  text-align: left;
+}
+
+/* system & admin popover */
+.system-menu {
+  position: fixed;
+  left: 10px;
+  bottom: 52px;
+  width: 214px;
+  padding: 5px;
+  z-index: 60;
+}
+.system-menu__label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  padding: 7px 8px 6px;
+}
+.system-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 31px;
+  padding: 0 9px;
+  border: none;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font-size: 12px;
+  text-align: left;
+}
+.system-menu__item:hover {
+  background: var(--hover);
+}
+.system-menu__item--locked {
+  color: var(--locked);
+  cursor: not-allowed;
+}
+.system-menu__item--locked:hover {
+  background: transparent;
+}
+.system-menu__sep {
+  height: 1px;
+  background: var(--border-muted);
+  margin: 4px 6px;
+}
+
+/* app launcher */
+.launcher {
+  position: fixed;
+  top: 48px;
+  left: 10px;
+  width: 392px;
+  padding: 14px;
+  z-index: 60;
+}
+.launcher__label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  padding: 1px 3px 12px;
+}
+.launcher__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+.launcher__app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  height: 68px;
+  padding: 9px 4px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+}
+.launcher__app:hover {
+  background: var(--hover);
+}
+.launcher__app span {
+  font-size: 9.5px;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
+}
+.launcher__note {
+  font-size: 9.5px;
+  color: var(--text-3);
+  text-align: center;
+  padding-top: 12px;
+  line-height: 1.4;
+}
+
+/* overlay that captures outside clicks for fixed popovers */
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+}

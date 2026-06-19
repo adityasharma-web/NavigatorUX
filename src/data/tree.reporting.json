@@ -1,0 +1,35 @@
+[
+  {
+    "id": "rep_root",
+    "label": "Reporting Catalog",
+    "type": "module",
+    "hasChildren": true,
+    "tags": ["Reporting"],
+    "contentRoute": "reporting-dashboard",
+    "children": [
+      {
+        "id": "rep_fb",
+        "label": "Farmers Branch",
+        "type": "site",
+        "hasChildren": true,
+        "tags": ["Farmers Branch"],
+        "contentRoute": "object-summary",
+        "children": [
+          { "id": "rep_yield", "label": "Daily Yield Dashboard", "type": "report", "hasChildren": false, "tags": ["Reporting"], "status": "healthy", "contentRoute": "reporting-dashboard" },
+          { "id": "rep_scrap", "label": "Scrap Summary", "type": "report", "hasChildren": false, "tags": ["Reporting", "Scrap"], "status": "warning", "contentRoute": "reporting-dashboard" }
+        ]
+      },
+      {
+        "id": "rep_liv",
+        "label": "Livermore",
+        "type": "site",
+        "hasChildren": true,
+        "tags": ["Livermore"],
+        "contentRoute": "object-summary",
+        "children": [
+          { "id": "rep_spc", "label": "SPC Violation Report", "type": "report", "hasChildren": false, "tags": ["Reporting"], "status": "violation", "contentRoute": "reporting-dashboard" }
+        ]
+      }
+    ]
+  }
+]

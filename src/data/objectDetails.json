@@ -1,0 +1,83 @@
+{
+  "leaf_sma02": {
+    "id": "leaf_sma02",
+    "title": "SMA02 | T11.2P",
+    "subtitle": "SPC Parameter",
+    "breadcrumb": ["Farmers Branch", "Lithography", "LITHO_OVL", "ROT", "SMA02 | T11.2P"],
+    "contentRoute": "spc-parameter",
+    "accessLabel": "SUPER-USER · facility-scoped access",
+    "metadata": [
+      { "label": "Parameter", "value": "ROT" },
+      { "label": "Technology", "value": "T11.2P" },
+      { "label": "Process", "value": "2LITHO" },
+      { "label": "Facility", "value": "Livermore" },
+      { "label": "Owner", "value": "R. Almeida" },
+      { "label": "Object ID", "value": "leaf_sma02" }
+    ],
+    "metrics": [
+      { "label": "Cp", "value": "1.07", "tone": "good" },
+      { "label": "Cpk", "value": "0.90", "tone": "warn" },
+      { "label": "Pp", "value": "0.90", "tone": "warn" },
+      { "label": "Ppk", "value": "0.76", "tone": "bad" },
+      { "label": "Desir.", "value": "0.40", "tone": "bad" },
+      { "label": "Viol.", "value": "29", "tone": "bad" }
+    ],
+    "activity": [
+      { "id": "a1", "text": "Violation flagged on W298653.2", "when": "2 hours ago", "tone": "bad" },
+      { "id": "a2", "text": "Control limits auto-reset (3σ)", "when": "Aug 28, 2025", "tone": "neutral" },
+      { "id": "a3", "text": "Owner changed to R. Almeida", "when": "Aug 12, 2025", "tone": "neutral" }
+    ]
+  },
+  "param_tx": {
+    "id": "param_tx",
+    "title": "TX · LITHO_OVL",
+    "subtitle": "SPC Parameter",
+    "breadcrumb": ["Farmers Branch", "Lithography", "LITHO_OVL", "TX"],
+    "contentRoute": "spc-parameter",
+    "accessLabel": "SUPER-USER · facility-scoped access",
+    "metadata": [
+      { "label": "Parameter", "value": "TX" },
+      { "label": "Technology", "value": "T11.2P" },
+      { "label": "Process", "value": "2LITHO" },
+      { "label": "Facility", "value": "Farmers Branch" },
+      { "label": "Owner", "value": "K. Kea" },
+      { "label": "Object ID", "value": "param_tx" }
+    ],
+    "metrics": [
+      { "label": "Cp", "value": "1.42", "tone": "good" },
+      { "label": "Cpk", "value": "1.31", "tone": "good" },
+      { "label": "Pp", "value": "1.28", "tone": "good" },
+      { "label": "Ppk", "value": "1.20", "tone": "good" },
+      { "label": "Desir.", "value": "0.82", "tone": "good" },
+      { "label": "Viol.", "value": "0", "tone": "good" }
+    ],
+    "activity": [
+      { "id": "a1", "text": "Capability recalculated", "when": "1 day ago", "tone": "neutral" },
+      { "id": "a2", "text": "No violations in last 30 days", "when": "Jun 15, 2026", "tone": "good" }
+    ]
+  },
+  "rot": {
+    "id": "rot",
+    "title": "ROT",
+    "subtitle": "Parameter group",
+    "breadcrumb": ["Farmers Branch", "Lithography", "LITHO_OVL", "ROT"],
+    "contentRoute": "spc-parameter",
+    "accessLabel": "SUPER-USER · facility-scoped access",
+    "metadata": [
+      { "label": "Parameter", "value": "ROT" },
+      { "label": "Equipment", "value": "LITHO_OVL" },
+      { "label": "Area", "value": "Lithography" },
+      { "label": "Facility", "value": "Farmers Branch" },
+      { "label": "Sub-parameters", "value": "2" },
+      { "label": "Object ID", "value": "rot" }
+    ],
+    "metrics": [
+      { "label": "Charts", "value": "4", "tone": "neutral" },
+      { "label": "Open viol.", "value": "1", "tone": "bad" },
+      { "label": "Health", "value": "At risk", "tone": "warn" }
+    ],
+    "activity": [
+      { "id": "a1", "text": "Sub-parameter SMA02 raised a violation", "when": "2 hours ago", "tone": "bad" }
+    ]
+  }
+}

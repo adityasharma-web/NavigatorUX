@@ -1,0 +1,6 @@
+{
+  "u-almeida": [
+    { "id": "leaf_sma02", "label": "SMA02 | T11.2P", "type": "leaf", "status": "violation" },
+    { "id": "param_tx", "label": "TX · LITHO_OVL", "type": "param", "status": "healthy" }
+  ]
+}

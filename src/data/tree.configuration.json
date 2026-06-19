@@ -1,0 +1,105 @@
+[
+  {
+    "id": "blocks",
+    "label": "Blocks",
+    "type": "block",
+    "hasChildren": true,
+    "tags": [],
+    "contentRoute": "object-summary",
+    "children": [
+      {
+        "id": "fb",
+        "label": "Farmers Branch",
+        "type": "site",
+        "hasChildren": true,
+        "tags": ["Farmers Branch"],
+        "contentRoute": "object-summary",
+        "children": [
+          {
+            "id": "quality",
+            "label": "Quality",
+            "type": "module",
+            "hasChildren": true,
+            "tags": ["Quality"],
+            "contentRoute": "object-summary",
+            "children": [
+              { "id": "iqa", "label": "IQA", "type": "collection", "hasChildren": false, "tags": ["Quality", "IQA"], "status": "healthy", "contentRoute": "object-summary" },
+              { "id": "scrap", "label": "Scrap", "type": "collection", "hasChildren": false, "tags": ["Quality", "Scrap"], "status": "warning", "contentRoute": "object-summary" }
+            ]
+          },
+          {
+            "id": "litho",
+            "label": "Lithography",
+            "type": "area",
+            "hasChildren": true,
+            "tags": ["Lithography"],
+            "contentRoute": "object-summary",
+            "children": [
+              { "id": "litho_cd", "label": "LITHO_CD", "type": "equip", "hasChildren": false, "tags": ["Lithography"], "status": "warning", "contentRoute": "equipment-overview" },
+              {
+                "id": "ovl",
+                "label": "LITHO_OVL",
+                "type": "equip",
+                "hasChildren": true,
+                "tags": ["Lithography"],
+                "contentRoute": "equipment-overview",
+                "children": [
+                  {
+                    "id": "rot",
+                    "label": "ROT",
+                    "type": "param",
+                    "hasChildren": true,
+                    "tags": ["Lithography"],
+                    "status": "violation",
+                    "contentRoute": "spc-parameter",
+                    "children": [
+                      {
+                        "id": "leaf_sma02",
+                        "label": "SMA02 | T11.2P",
+                        "type": "leaf",
+                        "hasChildren": true,
+                        "tags": ["Lithography"],
+                        "status": "violation",
+                        "contentRoute": "spc-parameter",
+                        "children": [
+                          { "id": "spc02", "label": "SPC Charts", "type": "chart", "hasChildren": false, "tags": ["Lithography"], "contentRoute": "spc-charts" },
+                          { "id": "rec02", "label": "Records", "type": "records", "hasChildren": false, "tags": ["Lithography"], "contentRoute": "records-table", "requiredPermission": "object.viewRecords" },
+                          { "id": "viol02", "label": "Violations", "type": "viol", "hasChildren": false, "tags": ["Lithography"], "status": "violation", "contentRoute": "violations" }
+                        ]
+                      },
+                      { "id": "leaf_sma01", "label": "SMA01 | T11.7P", "type": "leaf", "hasChildren": false, "tags": ["Lithography"], "status": "healthy", "contentRoute": "spc-parameter" }
+                    ]
+                  },
+                  { "id": "param_tx", "label": "TX", "type": "param", "hasChildren": false, "tags": ["Lithography"], "status": "healthy", "contentRoute": "spc-parameter" }
+                ]
+              },
+              { "id": "lam", "label": "Lamination", "type": "area", "hasChildren": false, "tags": ["Lamination"], "status": "healthy", "contentRoute": "object-summary" }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "liv",
+        "label": "Livermore",
+        "type": "site",
+        "hasChildren": true,
+        "tags": ["Livermore"],
+        "contentRoute": "object-summary",
+        "children": [
+          {
+            "id": "pc",
+            "label": "Process Control",
+            "type": "module",
+            "hasChildren": true,
+            "tags": ["Process Control"],
+            "contentRoute": "process-control",
+            "children": [
+              { "id": "spcparams", "label": "SPC Parameters", "type": "param", "hasChildren": false, "tags": ["Process Control"], "status": "healthy", "contentRoute": "spc-parameter" }
+            ]
+          },
+          { "id": "reports", "label": "Reports", "type": "report", "hasChildren": false, "tags": ["Reporting"], "contentRoute": "reporting-dashboard" }
+        ]
+      }
+    ]
+  }
+]

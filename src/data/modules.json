@@ -1,0 +1,17 @@
+[
+  { "id": "home", "label": "Home", "iconKey": "home", "routeKey": "home", "group": "primary", "visible": true, "locked": false, "requiredPermission": "module.home" },
+  { "id": "configuration", "label": "Configuration", "iconKey": "configuration", "routeKey": "configuration", "group": "primary", "visible": true, "locked": false, "requiredPermission": "module.configuration" },
+  { "id": "workflow", "label": "Workflow", "iconKey": "workflow", "routeKey": "workflow", "group": "primary", "visible": true, "locked": false, "requiredPermission": "module.workflow" },
+  { "id": "dataCollection", "label": "Data Collection", "iconKey": "dataCollection", "routeKey": "dataCollection", "group": "primary", "visible": true, "locked": false, "requiredPermission": "module.dataCollection" },
+  { "id": "processControl", "label": "Process Control", "iconKey": "processControl", "routeKey": "processControl", "group": "primary", "visible": true, "locked": false, "requiredPermission": "module.processControl" },
+  { "id": "reporting", "label": "Reporting", "iconKey": "reporting", "routeKey": "reporting", "group": "primary", "visible": true, "locked": false, "requiredPermission": "module.reporting" },
+  { "id": "dataExplorer", "label": "Data Explorer", "iconKey": "dataExplorer", "routeKey": "dataExplorer", "group": "primary", "visible": true, "locked": false, "requiredPermission": "module.dataExplorer" },
+  { "id": "ncmr", "label": "NCMR", "iconKey": "ncmr", "routeKey": "ncmr", "group": "primary", "visible": true, "locked": true, "requiredPermission": "module.ncmr" },
+  { "id": "mrp", "label": "MRP Tool", "iconKey": "mrp", "routeKey": "mrp", "group": "primary", "visible": true, "locked": false, "requiredPermission": "module.mrp" },
+  { "id": "appSupport", "label": "App Support", "iconKey": "appSupport", "routeKey": "appSupport", "group": "primary", "visible": true, "locked": false, "requiredPermission": "module.appSupport" },
+
+  { "id": "security", "label": "Security", "iconKey": "security", "routeKey": "security", "group": "system", "visible": true, "locked": false, "requiredPermission": "security.access" },
+  { "id": "admin", "label": "Admin", "iconKey": "admin", "routeKey": "admin", "group": "system", "visible": true, "locked": false, "requiredPermission": "admin.access" },
+  { "id": "settings", "label": "Settings", "iconKey": "settings", "routeKey": "settings", "group": "system", "visible": true, "locked": false },
+  { "id": "help", "label": "Help", "iconKey": "help", "routeKey": "help", "group": "system", "visible": true, "locked": false }
+]

@@ -1,0 +1,69 @@
+.app-root {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+}
+/* zoom wrapper drives the scale setting; width/height are compensated in JS */
+.app-frame {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-size: var(--font-base);
+  line-height: 1.45;
+}
+
+/* header */
+.header {
+  height: var(--header-h);
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 10px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 30;
+}
+.header__module {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-3);
+}
+.header__module-sep {
+  width: 1px;
+  height: 18px;
+  background: var(--border);
+}
+.header__module-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+.header__spacer {
+  flex: 1;
+}
+
+/* body row holding rail + blades + content */
+.app-body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+/* collapsed-blade rail strip */
+.blade-collapsed {
+  width: 38px;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 9px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+}

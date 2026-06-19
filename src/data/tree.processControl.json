@@ -1,0 +1,35 @@
+[
+  {
+    "id": "pc_root",
+    "label": "Process Control",
+    "type": "module",
+    "hasChildren": true,
+    "tags": ["Process Control"],
+    "contentRoute": "process-control",
+    "children": [
+      {
+        "id": "pc_litho",
+        "label": "Lithography",
+        "type": "area",
+        "hasChildren": true,
+        "tags": ["Lithography"],
+        "contentRoute": "object-summary",
+        "children": [
+          { "id": "pc_rot", "label": "ROT", "type": "param", "hasChildren": false, "tags": ["Lithography"], "status": "violation", "contentRoute": "spc-parameter" },
+          { "id": "pc_tx", "label": "TX", "type": "param", "hasChildren": false, "tags": ["Lithography"], "status": "healthy", "contentRoute": "spc-parameter" }
+        ]
+      },
+      {
+        "id": "pc_lam",
+        "label": "Lamination",
+        "type": "area",
+        "hasChildren": true,
+        "tags": ["Lamination"],
+        "contentRoute": "object-summary",
+        "children": [
+          { "id": "pc_thk", "label": "Thickness", "type": "param", "hasChildren": false, "tags": ["Lamination"], "status": "healthy", "contentRoute": "spc-parameter" }
+        ]
+      }
+    ]
+  }
+]
