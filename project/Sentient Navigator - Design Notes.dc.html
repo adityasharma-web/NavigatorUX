@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',Arial,sans-serif;-webkit-font-smoothing:antialiased;background:#e7e9ee;color:#1f2328}
+  h1,h2,h3,h4,p,ul{margin:0}
+  ul{padding-left:17px}
+  li{margin:3px 0}
+  @media print{body{background:#fff}.page{box-shadow:none !important;margin:0 !important}}
+</style>
+</helmet>
+
+<div style="padding:36px 20px;display:flex;justify-content:center">
+<div class="page" style="width:860px;max-width:100%;background:#fff;border:1px solid #d0d7de;border-radius:6px;box-shadow:0 1px 3px rgba(31,35,40,.1);overflow:hidden">
+
+  <div style="background:#161b22;color:#e6edf3;padding:30px 46px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+      <img src="assets/logo-white.png" alt="Sentient" style="height:26px;display:block" />
+      <span style="font-size:14px;font-weight:600;letter-spacing:-.01em;color:#e6edf3">Sentient</span>
+      <span style="font-size:11px;font-weight:600;letter-spacing:.14em;color:#7d8590">NAVIGATOR</span>
+      <span style="margin-left:auto;font-size:10px;font-weight:600;letter-spacing:.06em;color:#7d8590;border:1px solid #30363d;border-radius:5px;padding:3px 9px">FINAL REFINEMENT · OPTION 1</span>
+    </div>
+    <h1 style="font-size:27px;font-weight:600;letter-spacing:-.01em">Azure Resource Navigator — Refined Direction</h1>
+    <p style="font-size:13.5px;color:#7d8590;margin-top:9px;max-width:660px;line-height:1.55">Option 1 was selected after review. This pass applies the feedback and brings the mock close to a final UX direction — compact, enterprise, GitHub/Azure in tone — ready to document.</p>
+  </div>
+
+  <div style="padding:34px 46px 44px">
+
+    <!-- what changed -->
+    <section style="margin-bottom:32px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.07em;color:#0969da;margin-bottom:8px">01 — WHAT CHANGED</div>
+      <h2 style="font-size:18px;font-weight:600;margin-bottom:14px">From the review prototype to the refined mock</h2>
+      <div style="border:1px solid #d0d7de;border-radius:8px;overflow:hidden">
+        <table style="width:100%;border-collapse:collapse;font-size:12.5px">
+          <thead><tr style="background:#f6f8fa;text-align:left"><th style="padding:9px 14px;font-weight:600;border-bottom:1px solid #d0d7de;width:42%">Before (3-option prototype)</th><th style="padding:9px 14px;font-weight:600;border-bottom:1px solid #d0d7de">Now (refined Option 1)</th></tr></thead>
+          <tbody style="color:#424a53">
+            <tr><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Option switcher + "Design Spike" banner</td><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Removed — looks like a real Navigator</td></tr>
+            <tr><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Tall header w/ big global search + facility selector</td><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Compact 44px header; search lives in the tree</td></tr>
+            <tr><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">"MODULES" heading; dark navy rail; colorful icons</td><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">No heading; surface-matched rail; quiet icons</td></tr>
+            <tr><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Soft, rounded, colorful cards &amp; badges</td><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Crisp borders, small radii, disciplined palette</td></tr>
+            <tr><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Larger fonts, loose spacing</td><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Smaller, compact, denser for large trees</td></tr>
+            <tr><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Basic tree search</td><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Smart multi-select filter w/ pills + Apply/Clear</td></tr>
+            <tr><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Main area still rendered SPC chart/records inline</td><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Center is a clean <b>Content Host</b> placeholder — Navigator routes content, doesn't own it</td></tr>
+            <tr><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Dark mode used several gray panel shades</td><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">True black/white; blue = selection only, gray = locked only</td></tr>
+            <tr><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Filter was a text input + button row</td><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Compact filter button moved into the blade header; multi-select popover</td></tr>
+            <tr><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Placeholder logo block</td><td style="padding:9px 14px;border-bottom:1px solid #eaeef2">Real theme-aware Sentient mark (blue / white)</td></tr>
+            <tr><td style="padding:9px 14px">No login, no scale options</td><td style="padding:9px 14px">SSO-first login concept + appearance menu (theme / scale / density)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- why option 1 -->
+    <section style="margin-bottom:30px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.07em;color:#0969da;margin-bottom:8px">02 — WHY OPTION 1</div>
+      <p style="font-size:13px;line-height:1.6;color:#424a53">The Azure-style blade model — <b>icon rail → hierarchy blade → content host → details/actions blade</b> — keeps the drill-down users depend on while letting them open, drill, and close panels to reclaim workspace. It scales to large multi-site trees, matches the enterprise tools the team referenced, and cleanly separates the Navigator shell from the modules it loads. Concepts 2 and 3 are archived for reference but are not the direction.</p>
+    </section>
+
+    <!-- how it works -->
+    <section style="margin-bottom:30px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.07em;color:#0969da;margin-bottom:8px">03 — HOW THE KEY PIECES WORK</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div style="border:1px solid #d0d7de;border-radius:8px;padding:14px 16px"><h4 style="font-size:13px;font-weight:600;margin-bottom:6px">Hierarchy &amp; tree</h4><p style="font-size:12px;line-height:1.55;color:#424a53">Backend-driven nodes (Blocks → Sites → Modules → Areas → Equipment → Parameters → Charts/Records/Violations). Compact rows, clear expand/collapse, quiet selected state. Loads lazily in production.</p></div>
+        <div style="border:1px solid #d0d7de;border-radius:8px;padding:14px 16px"><h4 style="font-size:13px;font-weight:600;margin-bottom:6px">Smart filter</h4><p style="font-size:12px;line-height:1.55;color:#424a53">Compact filter button → popover with multi-select categories (Module/Area, Site/Block, Object Type, Status). Active pills + count badge; Apply / Clear. Filters the tree only.</p></div>
+        <div style="border:1px solid #d0d7de;border-radius:8px;padding:14px 16px"><h4 style="font-size:13px;font-weight:600;margin-bottom:6px">Pinned objects</h4><p style="font-size:12px;line-height:1.55;color:#424a53">User-profile-scoped, collapsible section at the top of the blade. Open directly without re-drilling; unpin with ×. Supports the "least clicks" goal alongside breadcrumbs.</p></div>
+        <div style="border:1px solid #d0d7de;border-radius:8px;padding:14px 16px"><h4 style="font-size:13px;font-weight:600;margin-bottom:6px">Content Host</h4><p style="font-size:12px;line-height:1.55;color:#424a53">The main area is a labeled hosted region. Selecting a node routes a module/app/chart/report into it. The sample SPC view is clearly marked "sample loaded view" — not owned by the shell.</p></div>
+        <div style="border:1px solid #d0d7de;border-radius:8px;padding:14px 16px"><h4 style="font-size:13px;font-weight:600;margin-bottom:6px">Details / actions blade</h4><p style="font-size:12px;line-height:1.55;color:#424a53">Closable right panel: compact metadata, quiet role/access context, and compact actions (View Data, Open Chart, View Records, Configure Limits). Actions route to their own modules.</p></div>
+        <div style="border:1px solid #d0d7de;border-radius:8px;padding:14px 16px"><h4 style="font-size:13px;font-weight:600;margin-bottom:6px">Theme &amp; scale</h4><p style="font-size:12px;line-height:1.55;color:#424a53">Appearance menu: Light / Dark, Scale 100 / 125 / 150%, Density Compact / Comfortable. Dark mode is the primary visual target; default is 100% compact.</p></div>
+      </div>
+    </section>
+
+    <!-- shell vs content + security -->
+    <section style="margin-bottom:30px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.07em;color:#0969da;margin-bottom:8px">04 — SHELL vs LOADED CONTENT &amp; SECURITY</div>
+      <div style="display:flex;gap:18px;flex-wrap:wrap">
+        <div style="flex:1;min-width:240px">
+          <h4 style="font-size:13px;font-weight:600;margin-bottom:7px">Navigator shell owns</h4>
+          <ul style="font-size:12px;line-height:1.5;color:#424a53"><li>Login / role &amp; security context</li><li>Icon rail, hierarchy blade, tree filter, pinned</li><li>Breadcrumbs, routing, theme &amp; scale</li><li>Details/actions blade, permission-aware visibility</li></ul>
+        </div>
+        <div style="flex:1;min-width:240px">
+          <h4 style="font-size:13px;font-weight:600;margin-bottom:7px">Loaded content (separate)</h4>
+          <ul style="font-size:12px;line-height:1.5;color:#424a53"><li>SPC charts, histograms, records tables</li><li>Dashboards, reports, workflow / process screens</li><li>Other internal or external application modules</li></ul>
+        </div>
+      </div>
+      <p style="font-size:12px;line-height:1.55;color:#424a53;margin-top:12px">Security is shown subtly after login: a small SUPER-USER badge in the profile and details blade, a locked NCMR module, a disabled admin-only "Archive" action, and facility-scoped access. UI checks are convenience only — the API stays the source of truth, filtering the tree and actions per role and facility.</p>
+    </section>
+
+    <!-- remaining + open questions -->
+    <section>
+      <div style="font-size:11px;font-weight:700;letter-spacing:.07em;color:#0969da;margin-bottom:8px">05 — FOR LATER TECHNICAL PLANNING</div>
+      <p style="font-size:12.5px;line-height:1.6;color:#424a53;margin-bottom:14px">React component map (AppShell, IconRail, NavigatorTree, SmartFilter, PinnedList, ContentHost, ObjectDetailsPanel, ActionPanel, Theme/ScaleControls) over an API layer: <b>React → API → authorization → backend/DB → navigator data</b>. The tree, content, and permissions are all server-provided; this mock fixes the UI structure, not the business logic. Components are greenfield / permissive-licensed only — no proprietary UI controls.</p>
+      <div style="border:1px solid #d0d7de;border-radius:8px;background:#f6f8fa;padding:15px 18px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.05em;color:#59636e;margin-bottom:10px">TOP OPEN QUESTIONS</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:flex;gap:10px;font-size:12.5px;color:#1f2328"><span style="color:#0969da;font-weight:700">1</span><span>Should pinned objects ship in v1, or be a fast-follow?</span></div>
+          <div style="display:flex;gap:10px;font-size:12.5px;color:#1f2328"><span style="color:#0969da;font-weight:700">2</span><span>Is login integrated into the Navigator, or a separate identity entry point?</span></div>
+          <div style="display:flex;gap:10px;font-size:12.5px;color:#1f2328"><span style="color:#0969da;font-weight:700">3</span><span>Should the Content Host load modules via iframe, app route, or embedded component?</span></div>
+        </div>
+      </div>
+    </section>
+
+    <div style="margin-top:34px;padding-top:16px;border-top:1px solid #d0d7de;display:flex;justify-content:space-between;font-size:11px;color:#818b98">
+      <span>Sentient Navigator — Option 1 refinement</span>
+      <span>Interactive mock: “Sentient Navigator.dc.html” · toggle theme / scale in the gear menu</span>
+    </div>
+  </div>
+</div>
+</div>
+</x-dc>
+</body>
+</html>

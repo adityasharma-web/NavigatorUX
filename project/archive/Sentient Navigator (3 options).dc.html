@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%}
+  body{font-family:'Helvetica Neue',Helvetica,Arial,system-ui,sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  :root{
+    --bg:#eef1f5; --surface:#ffffff; --surface-2:#f6f8fb; --surface-3:#eef2f7;
+    --border:#e2e8f0; --border-strong:#cbd5e1; --hover:#f1f5f9;
+    --text:#0f172a; --text-2:#475569; --text-3:#8a97a8;
+    --accent:#2563eb; --accent-2:#1d4ed8; --accent-soft:#eaf1fe; --accent-fg:#1d4ed8;
+    --rail:#0f1b2e; --rail-fg:#aebbcd; --rail-border:#15233a;
+    --good:#16a34a; --good-soft:#e8f6ee; --warn:#b45309; --warn-soft:#fdf2e3; --bad:#dc2626; --bad-soft:#fdecec;
+    --shadow:0 1px 2px rgba(15,23,42,.06),0 1px 3px rgba(15,23,42,.04);
+  }
+  [data-theme="dark"]{
+    --bg:#0a1120; --surface:#111a2b; --surface-2:#0e1626; --surface-3:#172238;
+    --border:#1f2c42; --border-strong:#2c3a54; --hover:#172238;
+    --text:#e6ebf3; --text-2:#9fb0c8; --text-3:#697892;
+    --accent:#3b82f6; --accent-2:#60a5fa; --accent-soft:#16243c; --accent-fg:#7eb0ff;
+    --rail:#070d18; --rail-fg:#8b9bb5; --rail-border:#13203450;
+    --good:#34d399; --good-soft:#10271f; --warn:#fbbf24; --warn-soft:#2a2110; --bad:#f87171; --bad-soft:#2a1414;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 2px 8px rgba(0,0,0,.28);
+  }
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:8px;border:2px solid transparent;background-clip:padding-box}
+  ::-webkit-scrollbar-track{background:transparent}
+  @keyframes fade{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<div data-theme="{{ theme }}" style="height:100vh;display:flex;flex-direction:column;background:var(--bg);color:var(--text);font-size:13px;line-height:1.45;overflow:hidden">
+
+  <!-- ===== TOP BAR ===== -->
+  <div style="height:52px;flex:none;display:flex;align-items:center;gap:18px;padding:0 16px;background:var(--surface);border-bottom:1px solid var(--border);z-index:5">
+    <div style="display:flex;align-items:center;gap:11px;min-width:188px">
+      <span style="display:flex;align-items:center;height:34px;padding:0 10px;background:#fff;border:1px solid var(--border);border-radius:8px;flex:none"><img src="assets/sentient-logo.png" alt="Sentient — Build Smarter" style="height:18px;width:auto;display:block"></span>
+      <span style="font-size:11px;font-weight:700;letter-spacing:.16em;color:var(--text-3)">NAVIGATOR</span>
+    </div>
+    <button style="display:flex;align-items:center;gap:8px;height:32px;padding:0 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:7px;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer" style-hover="border-color:var(--border-strong)">
+      <span style="width:7px;height:7px;border-radius:50%;background:var(--good)"></span>
+      Farmers Branch · Production
+      <span style="color:var(--text-3)">▾</span>
+    </button>
+    <div style="flex:1;display:flex;justify-content:center">
+      <div style="display:flex;align-items:center;gap:9px;width:100%;max-width:520px;height:34px;padding:0 12px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+        <span style="color:var(--text-3);font-size:12.5px">Search facilities, equipment, parameters, charts…</span>
+        <span style="margin-left:auto;font-size:10px;font-weight:600;color:var(--text-3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">G + /</span>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <button onClick="{{ toggleTheme }}" title="Toggle theme" style="width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--text-2);cursor:pointer" style-hover="border-color:var(--border-strong);color:var(--text)">
+        <span style="font-size:15px">{{ themeIcon }}</span>
+      </button>
+      <button title="Notifications" style="position:relative;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:var(--surface-2);border:1px solid var(--border);border-radius:8px;color:var(--text-2);cursor:pointer" style-hover="border-color:var(--border-strong);color:var(--text)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.7 21a2 2 0 01-3.4 0"></path></svg>
+        <span style="position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:50%;background:var(--bad);border:1.5px solid var(--surface-2)"></span>
+      </button>
+      <div style="width:1px;height:24px;background:var(--border);margin:0 4px"></div>
+      <button style="display:flex;align-items:center;gap:9px;height:36px;padding:0 6px 0 4px;background:transparent;border:none;cursor:pointer;border-radius:8px" style-hover="background:var(--surface-2)">
+        <span style="width:28px;height:28px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">RA</span>
+        <span style="text-align:left;line-height:1.15">
+          <span style="display:block;font-size:12px;font-weight:600;color:var(--text)">Riberet Almeida</span>
+          <span style="display:flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;letter-spacing:.05em;color:var(--accent-fg)">
+            <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"></path></svg>
+            SUPER-USER
+          </span>
+        </span>
+        <span style="color:var(--text-3);font-size:11px">▾</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== CONCEPT SWITCHER ===== -->
+  <div style="height:48px;flex:none;display:flex;align-items:center;gap:12px;padding:0 16px;background:var(--surface-2);border-bottom:1px solid var(--border)">
+    <span style="display:inline-flex;align-items:center;gap:6px;font-size:9.5px;font-weight:700;letter-spacing:.08em;color:var(--warn);background:var(--warn-soft);border:1px solid var(--warn);border-radius:5px;padding:3px 8px">
+      <span style="width:6px;height:6px;border-radius:50%;background:var(--warn)"></span>DESIGN SPIKE — FOR REVIEW
+    </span>
+    <div style="display:flex;gap:4px;padding:3px;background:var(--surface-3);border-radius:9px">
+      <sc-for list="{{ optTabs }}" as="t" hint-placeholder-count="3">
+        <button onClick="{{ t.onClick }}" style="display:flex;align-items:center;gap:8px;height:30px;padding:0 13px;border:none;border-radius:7px;cursor:pointer;font-size:12.5px;font-weight:600;background:{{ t.bg }};color:{{ t.fg }};box-shadow:{{ t.shadow }}">
+          <span style="font-size:10px;font-weight:700;opacity:.7">{{ t.n }}</span>{{ t.label }}
+        </button>
+      </sc-for>
+    </div>
+    <span style="margin-left:auto;font-size:12px;color:var(--text-2);max-width:560px;text-align:right">{{ optCaption }}</span>
+  </div>
+
+  <!-- ===== BODY ===== -->
+  <div style="flex:1;min-height:0;display:flex">
+
+    <!-- ============ OPTION 1 — AZURE RESOURCE NAVIGATOR ============ -->
+    <sc-if value="{{ isOpt1 }}" hint-placeholder-val="{{ true }}">
+    <div style="flex:1;min-width:0;display:flex;overflow-x:auto">
+
+      <!-- icon rail -->
+      <div style="width:{{ railW }}px;flex:none;display:flex;flex-direction:column;background:var(--rail);border-right:1px solid var(--rail-border);transition:width .18s ease;overflow:hidden">
+        <button onClick="{{ toggleRail }}" style="display:flex;align-items:center;gap:12px;height:46px;flex:none;padding:0 18px;background:transparent;border:none;border-bottom:1px solid var(--rail-border);color:var(--rail-fg);cursor:pointer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+          <sc-if value="{{ railExpanded }}"><span style="font-size:11px;font-weight:700;letter-spacing:.1em;white-space:nowrap">MODULES</span></sc-if>
+        </button>
+        <div style="flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 8px;display:flex;flex-direction:column;gap:2px">
+          <sc-for list="{{ modules }}" as="m" hint-placeholder-count="10">
+            <button onClick="{{ m.onClick }}" title="{{ m.title }}" style="position:relative;display:flex;align-items:center;gap:13px;height:38px;flex:none;padding:0 11px;border:none;border-radius:7px;cursor:{{ m.cursor }};background:{{ m.bg }};color:{{ m.fg }};font-size:12.5px;font-weight:{{ m.fw }};white-space:nowrap" style-hover="background:var(--rail-border)">
+              <span style="position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:{{ m.bar }}"></span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="{{ m.icon }}"></path></svg>
+              <sc-if value="{{ railExpanded }}"><span style="flex:1;text-align:left">{{ m.label }}</span></sc-if>
+              <sc-if value="{{ m.locked }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex:none;opacity:.8"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg></sc-if>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- secondary hierarchy blade -->
+      <sc-if value="{{ bladeOpen }}" hint-placeholder-val="{{ true }}">
+      <div style="width:288px;flex:none;display:flex;flex-direction:column;background:var(--surface);border-right:1px solid var(--border)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px 10px">
+          <div>
+            <div style="font-size:14px;font-weight:700">Configuration</div>
+            <div style="font-size:11px;color:var(--text-3)">Object hierarchy</div>
+          </div>
+          <button onClick="{{ toggleBlade }}" title="Collapse blade" style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text-2);cursor:pointer" style-hover="background:var(--hover)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"></path></svg>
+          </button>
+        </div>
+        <div style="padding:0 14px 10px">
+          <div style="display:flex;align-items:center;gap:8px;height:32px;padding:0 10px;background:var(--surface-2);border:1px solid var(--border);border-radius:7px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+            <input value="{{ query }}" onInput="{{ onQuery }}" placeholder="Filter objects…" style="flex:1;min-width:0;border:none;background:transparent;outline:none;color:var(--text);font-size:12.5px;font-family:inherit">
+          </div>
+        </div>
+        <div style="padding:0 14px 8px">
+          <div style="font-size:9.5px;font-weight:700;letter-spacing:.08em;color:var(--text-3);margin-bottom:6px">RECENT</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px">
+            <sc-for list="{{ recents }}" as="r" hint-placeholder-count="3">
+              <span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--text-2);background:var(--surface-2);border:1px solid var(--border);border-radius:6px;padding:3px 8px">
+                <span style="width:6px;height:6px;border-radius:50%;background:{{ r.dot }}"></span>{{ r.label }}
+              </span>
+            </sc-for>
+          </div>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:6px 8px 14px;border-top:1px solid var(--border)">
+          <sc-for list="{{ treeRows }}" as="node" hint-placeholder-count="12">
+            <div onClick="{{ node.onRow }}" style="display:flex;align-items:center;gap:6px;height:30px;padding:0 8px 0 {{ node.pad }}px;cursor:pointer;border-radius:6px;background:{{ node.rowBg }};color:{{ node.rowFg }};font-weight:{{ node.fw }}" style-hover="background:var(--hover)">
+              <sc-if value="{{ node.hasChildren }}">
+                <span onClick="{{ node.onCaret }}" style="display:flex;align-items:center;justify-content:center;width:16px;height:16px;flex:none;color:var(--text-3);transform:rotate({{ node.caret }}deg);transition:transform .12s">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M9 6l6 6-6 6"></path></svg>
+                </span>
+              </sc-if>
+              <sc-if value="{{ node.leaf }}"><span style="width:16px;flex:none"></span></sc-if>
+              <span style="flex:none;color:{{ node.iconColor }}">{{ node.typeIcon }}</span>
+              <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12.5px">{{ node.label }}</span>
+              <sc-if value="{{ node.status }}"><span style="width:7px;height:7px;border-radius:50%;flex:none;background:{{ node.statusColor }}"></span></sc-if>
+              <sc-if value="{{ node.lockedItem }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg></sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ bladeClosed }}">
+      <div style="width:42px;flex:none;display:flex;flex-direction:column;align-items:center;padding-top:12px;background:var(--surface);border-right:1px solid var(--border)">
+        <button onClick="{{ toggleBlade }}" title="Expand hierarchy" style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text-2);cursor:pointer" style-hover="background:var(--hover)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6l6 6-6 6"></path></svg>
+        </button>
+      </div>
+      </sc-if>
+
+      <!-- main content blade -->
+      <div style="flex:1;min-width:400px;display:flex;flex-direction:column;overflow-y:auto;background:var(--bg)">
+        <div style="padding:16px 22px 4px">
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-2);flex-wrap:wrap">
+            <sc-for list="{{ crumbs }}" as="c" hint-placeholder-count="5">
+              <span style="font-weight:{{ c.fw }};color:{{ c.color }};cursor:pointer" style-hover="color:var(--accent)">{{ c.label }}</span>
+              <sc-if value="{{ c.sep }}"><span style="color:var(--text-3)">›</span></sc-if>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:16px;margin-top:12px">
+            <div style="width:44px;height:44px;flex:none;border-radius:10px;background:var(--accent-soft);color:var(--accent-fg);display:flex;align-items:center;justify-content:center">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                <h1 style="margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em">ROT</h1>
+                <span style="font-size:11px;font-weight:700;color:var(--accent-fg);background:var(--accent-soft);border-radius:5px;padding:2px 7px">KPI 2</span>
+                <span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--bad);background:var(--bad-soft);border-radius:5px;padding:2px 8px">
+                  <span style="width:6px;height:6px;border-radius:50%;background:var(--bad)"></span>29 pending violations
+                </span>
+              </div>
+              <div style="display:flex;gap:18px;margin-top:7px;font-size:12px;color:var(--text-2);flex-wrap:wrap">
+                <span><span style="color:var(--text-3)">Technology</span> <b style="color:var(--text);font-weight:600">T11.2P</b></span>
+                <span><span style="color:var(--text-3)">Process</span> <b style="color:var(--text);font-weight:600">2LITHO</b></span>
+                <span><span style="color:var(--text-3)">Region</span> <b style="color:var(--text);font-weight:600">Livermore</b></span>
+                <span><span style="color:var(--text-3)">Controls</span> <b style="color:var(--text);font-weight:600">AUTO-QC · 3σ · Fixed Target</b></span>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex:none">
+              <button style="display:flex;align-items:center;gap:7px;height:34px;padding:0 14px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-size:12.5px;font-weight:600;cursor:pointer;box-shadow:var(--shadow)" style-hover="background:var(--accent-2)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 3v18h18"></path><path d="M7 14l4-4 3 3 5-6"></path></svg>Open Chart
+              </button>
+              <button onClick="{{ toggleDetail }}" title="Toggle details" style="width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:var(--surface);color:var(--text-2);border:1px solid var(--border);border-radius:7px;cursor:pointer" style-hover="background:var(--hover)">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M15 3v18"></path></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- metrics -->
+        <div style="padding:14px 22px 4px">
+          <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px">
+            <sc-for list="{{ metrics }}" as="k" hint-placeholder-count="6">
+              <div style="padding:11px 13px;background:var(--surface);border:1px solid var(--border);border-radius:9px;box-shadow:var(--shadow)">
+                <div style="font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--text-3);text-transform:uppercase">{{ k.label }}</div>
+                <div style="font-size:23px;font-weight:700;margin-top:3px;color:{{ k.color }};font-variant-numeric:tabular-nums">{{ k.value }}</div>
+                <div style="font-size:10.5px;color:var(--text-3);margin-top:1px">{{ k.sub }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- charts -->
+        <div style="padding:14px 22px 4px;display:flex;gap:14px;align-items:stretch">
+          <div style="flex:2.3;min-width:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);overflow:hidden">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)">
+              <div>
+                <div style="font-size:13px;font-weight:700">X-Bar Control Chart · ROTATION</div>
+                <div style="font-size:11px;color:var(--text-3)">12/19/2025 – 6/18/2026 · μ=3.2 · σ=7.4 · UCL 15.3 / LCL −15.3</div>
+              </div>
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--text-2)">
+                <span style="width:18px;height:2px;background:var(--bad)"></span>Spec limits ±20
+              </span>
+            </div>
+            <div style="height:212px;padding:12px 14px 6px">{{ spcEl }}</div>
+          </div>
+          <div style="flex:1;min-width:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);overflow:hidden">
+            <div style="padding:12px 16px;border-bottom:1px solid var(--border)">
+              <div style="font-size:13px;font-weight:700">Histogram · Individuals</div>
+              <div style="font-size:11px;color:var(--text-3)">n=250 · mean 3.2 · stdev 7.4</div>
+            </div>
+            <div style="height:212px;padding:12px 14px 6px">{{ histEl }}</div>
+          </div>
+        </div>
+
+        <!-- records -->
+        <div style="padding:14px 22px 22px">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);overflow:hidden">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)">
+              <div style="display:flex;align-items:center;gap:10px">
+                <span style="font-size:13px;font-weight:700">Records</span>
+                <span style="font-size:11px;font-weight:600;color:var(--text-3)">250 total · 29 pending violation</span>
+              </div>
+              <div style="display:flex;gap:7px">
+                <button style="height:28px;padding:0 11px;background:var(--bad-soft);color:var(--bad);border:1px solid var(--bad);border-radius:6px;font-size:11.5px;font-weight:600;cursor:pointer">Show violations [29]</button>
+                <button style="height:28px;padding:0 11px;background:var(--surface-2);color:var(--text-2);border:1px solid var(--border);border-radius:6px;font-size:11.5px;font-weight:600;cursor:pointer" style-hover="background:var(--hover)">Show all [250]</button>
+              </div>
+            </div>
+            <table style="width:100%;border-collapse:collapse;font-size:12px">
+              <thead>
+                <tr style="text-align:left;color:var(--text-3)">
+                  <th style="font-weight:600;padding:9px 16px;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase">Status</th>
+                  <th style="font-weight:600;padding:9px 10px;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase">Timestamp</th>
+                  <th style="font-weight:600;padding:9px 10px;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase">Sample ID</th>
+                  <th style="font-weight:600;padding:9px 10px;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase;text-align:right">X̄</th>
+                  <th style="font-weight:600;padding:9px 10px;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase;text-align:right">Range</th>
+                  <th style="font-weight:600;padding:9px 10px;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase;text-align:right">Sigma</th>
+                  <th style="font-weight:600;padding:9px 10px;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase">Collected by</th>
+                  <th style="font-weight:600;padding:9px 16px;font-size:10.5px;letter-spacing:.03em;text-transform:uppercase">Product</th>
+                </tr>
+              </thead>
+              <tbody>
+                <sc-for list="{{ records }}" as="r" hint-placeholder-count="6">
+                  <tr style="border-top:1px solid var(--border)" style-hover="background:var(--hover)">
+                    <td style="padding:9px 16px"><span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:{{ r.stColor }};background:{{ r.stBg }};border-radius:5px;padding:2px 8px"><span style="width:6px;height:6px;border-radius:50%;background:{{ r.stColor }}"></span>{{ r.st }}</span></td>
+                    <td style="padding:9px 10px;color:var(--text-2);font-variant-numeric:tabular-nums">{{ r.ts }}</td>
+                    <td style="padding:9px 10px"><span style="color:var(--accent-fg);font-weight:600">{{ r.id }}</span></td>
+                    <td style="padding:9px 10px;text-align:right;font-variant-numeric:tabular-nums">{{ r.xbar }}</td>
+                    <td style="padding:9px 10px;text-align:right;color:var(--text-2);font-variant-numeric:tabular-nums">{{ r.rng }}</td>
+                    <td style="padding:9px 10px;text-align:right;color:var(--text-2);font-variant-numeric:tabular-nums">{{ r.sig }}</td>
+                    <td style="padding:9px 10px;color:var(--text-2)">{{ r.user }}</td>
+                    <td style="padding:9px 16px;color:var(--text-2);font-variant-numeric:tabular-nums">{{ r.prod }}</td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- right details blade -->
+      <sc-if value="{{ detailOpen }}" hint-placeholder-val="{{ true }}">
+      <div style="width:300px;flex:none;display:flex;flex-direction:column;overflow-y:auto;background:var(--surface);border-left:1px solid var(--border)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--border)">
+          <span style="font-size:13px;font-weight:700">Details &amp; Actions</span>
+          <button onClick="{{ toggleDetail }}" title="Close" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:var(--text-3);cursor:pointer;border-radius:5px" style-hover="background:var(--hover);color:var(--text)">✕</button>
+        </div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:18px">
+
+          <div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text-3);margin-bottom:9px">OBJECT</div>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;justify-content:space-between;font-size:12.5px"><span style="color:var(--text-3)">Type</span><span style="font-weight:600">SPC Parameter</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px"><span style="color:var(--text-3)">Filter</span><span style="font-weight:600">SMA02 | T11.2P</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px"><span style="color:var(--text-3)">Owner</span><span style="font-weight:600">Riberet Almeida</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px"><span style="color:var(--text-3)">Last reset</span><span style="font-weight:600;font-variant-numeric:tabular-nums">8/28/2025</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:12.5px"><span style="color:var(--text-3)">Specs</span><span style="font-weight:600;font-variant-numeric:tabular-nums">USL 20 · LSL −20 · T 0</span></div>
+            </div>
+          </div>
+
+          <div style="border-top:1px solid var(--border);padding-top:16px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text-3);margin-bottom:9px">ACCESS &amp; PERMISSIONS</div>
+            <div style="display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--accent-soft);border:1px solid var(--accent);border-radius:8px">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-fg)" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"></path></svg>
+              <div style="line-height:1.25"><div style="font-size:12px;font-weight:700;color:var(--accent-fg)">SUPER-USER · Write access</div><div style="font-size:10.5px;color:var(--text-2)">Scope: Farmers Branch · Livermore</div></div>
+            </div>
+          </div>
+
+          <div style="border-top:1px solid var(--border);padding-top:16px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px">ACTIONS</div>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <sc-for list="{{ actions }}" as="a" hint-placeholder-count="5">
+                <button title="{{ a.title }}" style="display:flex;align-items:center;gap:10px;width:100%;height:36px;padding:0 12px;background:{{ a.bg }};border:1px solid var(--border);border-radius:8px;cursor:{{ a.cursor }};color:{{ a.fg }};font-size:12.5px;font-weight:600;text-align:left" style-hover="border-color:var(--border-strong)">
+                  <span style="flex:none">{{ a.icon }}</span>
+                  <span style="flex:1">{{ a.label }}</span>
+                  <sc-if value="{{ a.locked }}"><span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:var(--text-3)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>ADMIN</span></sc-if>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="border-top:1px solid var(--border);padding-top:16px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px">RECENT ACTIVITY</div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ activity }}" as="ev" hint-placeholder-count="3">
+                <div style="display:flex;gap:10px">
+                  <span style="width:7px;height:7px;border-radius:50%;background:{{ ev.dot }};margin-top:5px;flex:none"></span>
+                  <div style="line-height:1.3"><div style="font-size:12px">{{ ev.text }}</div><div style="font-size:10.5px;color:var(--text-3)">{{ ev.when }}</div></div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- ============ OPTION 2 — OPERATIONS COCKPIT ============ -->
+    <sc-if value="{{ isOpt2 }}">
+    <div style="flex:1;min-width:0;display:flex;overflow-x:auto">
+
+      <!-- thin icon rail -->
+      <div style="width:60px;flex:none;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0;background:var(--rail);border-right:1px solid var(--rail-border)">
+        <sc-for list="{{ modules }}" as="m" hint-placeholder-count="10">
+          <button onClick="{{ m.onClick }}" title="{{ m.title }}" style="position:relative;width:42px;height:42px;flex:none;display:flex;align-items:center;justify-content:center;border:none;border-radius:9px;cursor:{{ m.cursor }};background:{{ m.bg }};color:{{ m.fg }}" style-hover="background:var(--rail-border)">
+            <span style="position:absolute;left:-9px;top:11px;bottom:11px;width:3px;border-radius:0 3px 3px 0;background:{{ m.bar }}"></span>
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="{{ m.icon }}"></path></svg>
+            <sc-if value="{{ m.locked }}"><span style="position:absolute;bottom:5px;right:6px;width:11px;height:11px;border-radius:50%;background:var(--rail);display:flex;align-items:center;justify-content:center"><svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="3"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg></span></sc-if>
+          </button>
+        </sc-for>
+      </div>
+
+      <!-- object explorer -->
+      <sc-if value="{{ bladeOpen }}" hint-placeholder-val="{{ true }}">
+      <div style="width:284px;flex:none;display:flex;flex-direction:column;background:var(--surface);border-right:1px solid var(--border)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 14px 10px">
+          <div style="display:flex;align-items:center;gap:9px">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 00-1-1.7l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.7l7 4a2 2 0 002 0l7-4A2 2 0 0021 16zM3.3 7L12 12l8.7-5M12 22V12"></path></svg>
+            <div><div style="font-size:14px;font-weight:700">Object Explorer</div><div style="font-size:11px;color:var(--text-3)">Process Control</div></div>
+          </div>
+          <button onClick="{{ toggleBlade }}" title="Collapse" style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text-2);cursor:pointer" style-hover="background:var(--hover)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+        </div>
+        <div style="padding:0 14px 10px">
+          <div style="display:flex;align-items:center;gap:8px;height:32px;padding:0 10px;background:var(--surface-2);border:1px solid var(--border);border-radius:7px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg>
+            <input value="{{ query }}" onInput="{{ onQuery }}" placeholder="Search objects…" style="flex:1;min-width:0;border:none;background:transparent;outline:none;color:var(--text);font-size:12.5px;font-family:inherit">
+          </div>
+        </div>
+        <div style="padding:2px 14px 8px">
+          <div style="font-size:9.5px;font-weight:700;letter-spacing:.08em;color:var(--text-3);margin-bottom:7px">PINNED OBJECTS</div>
+          <sc-for list="{{ pinned }}" as="p" hint-placeholder-count="2">
+            <div style="display:flex;align-items:center;gap:8px;padding:7px 9px;margin-bottom:5px;background:var(--surface-2);border:1px solid var(--border);border-radius:8px">
+              <span style="width:24px;height:24px;flex:none;border-radius:6px;background:var(--accent-soft);color:var(--accent-fg);display:flex;align-items:center;justify-content:center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg></span>
+              <div style="flex:1;min-width:0;line-height:1.25"><div style="font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ p.name }}</div><div style="font-size:10px;color:var(--text-3)">{{ p.meta }}</div></div>
+              <span style="width:7px;height:7px;border-radius:50%;flex:none;background:{{ p.dot }}"></span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:6px 8px 14px;border-top:1px solid var(--border)">
+          <div style="font-size:9.5px;font-weight:700;letter-spacing:.08em;color:var(--text-3);margin:6px 6px 4px">HIERARCHY</div>
+          <sc-for list="{{ treeRows }}" as="node" hint-placeholder-count="12">
+            <div onClick="{{ node.onRow }}" style="display:flex;align-items:center;gap:6px;height:30px;padding:0 8px 0 {{ node.pad }}px;cursor:pointer;border-radius:6px;background:{{ node.rowBg }};color:{{ node.rowFg }};font-weight:{{ node.fw }}" style-hover="background:var(--hover)">
+              <sc-if value="{{ node.hasChildren }}"><span onClick="{{ node.onCaret }}" style="display:flex;align-items:center;justify-content:center;width:16px;height:16px;flex:none;color:var(--text-3);transform:rotate({{ node.caret }}deg);transition:transform .12s"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M9 6l6 6-6 6"></path></svg></span></sc-if>
+              <sc-if value="{{ node.leaf }}"><span style="width:16px;flex:none"></span></sc-if>
+              <span style="flex:none;color:{{ node.iconColor }}">{{ node.typeIcon }}</span>
+              <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12.5px">{{ node.label }}</span>
+              <sc-if value="{{ node.status }}"><span style="width:7px;height:7px;border-radius:50%;flex:none;background:{{ node.statusColor }}"></span></sc-if>
+              <sc-if value="{{ node.lockedItem }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg></sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <!-- workspace canvas -->
+      <div style="flex:1;min-width:440px;overflow-y:auto;background:var(--bg);background-image:radial-gradient(var(--border) 1px, transparent 1px);background-size:22px 22px">
+        <div style="padding:18px 22px;display:flex;flex-direction:column;gap:16px">
+
+          <!-- object header card -->
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:18px 20px">
+            <div style="display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--text-2);margin-bottom:12px;flex-wrap:wrap">
+              <sc-for list="{{ crumbs }}" as="c" hint-placeholder-count="5"><span style="font-weight:{{ c.fw }};color:{{ c.color }}">{{ c.label }}</span><sc-if value="{{ c.sep }}"><span style="color:var(--text-3)">›</span></sc-if></sc-for>
+            </div>
+            <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+              <div style="width:52px;height:52px;flex:none;border-radius:13px;background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg></div>
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+                  <h1 style="margin:0;font-size:24px;font-weight:700;letter-spacing:-.01em">ROT</h1>
+                  <span style="font-size:11px;font-weight:600;color:var(--text-2);background:var(--surface-2);border:1px solid var(--border);border-radius:5px;padding:2px 8px">SPC Parameter</span>
+                  <span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--bad);background:var(--bad-soft);border:1px solid var(--bad);border-radius:5px;padding:2px 9px"><span style="width:6px;height:6px;border-radius:50%;background:var(--bad)"></span>ACTION REQUIRED</span>
+                </div>
+                <div style="font-size:12px;color:var(--text-2);margin-top:5px">SMA02 | T11.2P · Technology <b style="color:var(--text)">T11.2P</b> · Process <b style="color:var(--text)">2LITHO</b> · Region <b style="color:var(--text)">Livermore</b></div>
+              </div>
+              <div style="display:flex;gap:8px;flex:none">
+                <button style="display:flex;align-items:center;gap:7px;height:36px;padding:0 15px;background:var(--accent);color:#fff;border:none;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer" style-hover="background:var(--accent-2)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 3v18h18"></path><path d="M7 14l4-4 3 3 5-6"></path></svg>Open Chart</button>
+                <button style="display:flex;align-items:center;gap:7px;height:36px;padding:0 14px;background:var(--surface-2);color:var(--text);border:1px solid var(--border);border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer" style-hover="background:var(--hover)">Configure</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- metric cards + status row -->
+          <div style="display:flex;gap:16px;align-items:stretch;flex-wrap:wrap">
+            <div style="flex:2.4;min-width:340px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+              <sc-for list="{{ metrics }}" as="k" hint-placeholder-count="6">
+                <div style="background:var(--surface);border:1px solid var(--border);border-radius:11px;box-shadow:var(--shadow);padding:13px 15px">
+                  <div style="font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--text-3);text-transform:uppercase">{{ k.label }}</div>
+                  <div style="font-size:26px;font-weight:700;margin-top:4px;color:{{ k.color }};font-variant-numeric:tabular-nums">{{ k.value }}</div>
+                  <div style="font-size:10.5px;color:var(--text-3)">{{ k.sub }}</div>
+                </div>
+              </sc-for>
+            </div>
+            <!-- automation/status card -->
+            <div style="flex:1;min-width:240px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:16px">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:13px"><span style="font-size:13px;font-weight:700">Monitoring Status</span><span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:var(--good)"><span style="width:7px;height:7px;border-radius:50%;background:var(--good)"></span>Active</span></div>
+              <div style="display:flex;flex-direction:column;gap:9px;font-size:12px">
+                <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Frequency</span><span style="font-weight:600">Hourly · AUTO-QC</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Last run</span><span style="font-weight:600">2 hours ago</span></div>
+                <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Next eval</span><span style="font-weight:600">in 16 minutes</span></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;margin-top:13px;padding-top:13px;border-top:1px solid var(--border)">
+                <span style="flex:1;display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--good)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"></path></svg>Processing</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+                <span style="flex:1;display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--good);justify-content:flex-end"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"></path></svg>Done</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- charts -->
+          <div style="display:flex;gap:16px;align-items:stretch;flex-wrap:wrap">
+            <div style="flex:2.3;min-width:360px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);overflow:hidden">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--border)"><div><div style="font-size:13px;font-weight:700">X-Bar Control Chart · ROTATION</div><div style="font-size:11px;color:var(--text-3)">μ=3.2 · σ=7.4 · UCL 15.3 / LCL −15.3 · Spec ±20</div></div></div>
+              <div style="height:216px;padding:12px 14px 6px">{{ spcEl }}</div>
+            </div>
+            <div style="flex:1;min-width:220px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);overflow:hidden">
+              <div style="padding:13px 16px;border-bottom:1px solid var(--border)"><div style="font-size:13px;font-weight:700">Histogram</div><div style="font-size:11px;color:var(--text-3)">n=250 · mean 3.2</div></div>
+              <div style="height:216px;padding:12px 14px 6px">{{ histEl }}</div>
+            </div>
+          </div>
+
+          <!-- records -->
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);overflow:hidden">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--border)"><div style="display:flex;align-items:center;gap:10px"><span style="font-size:13px;font-weight:700">Records</span><span style="font-size:11px;font-weight:600;color:var(--text-3)">250 total · 29 pending</span></div><button style="height:28px;padding:0 11px;background:var(--bad-soft);color:var(--bad);border:1px solid var(--bad);border-radius:6px;font-size:11.5px;font-weight:600;cursor:pointer">Review violations [29]</button></div>
+            <table style="width:100%;border-collapse:collapse;font-size:12px">
+              <thead><tr style="text-align:left;color:var(--text-3)"><th style="font-weight:600;padding:9px 16px;font-size:10.5px;text-transform:uppercase">Status</th><th style="font-weight:600;padding:9px 10px;font-size:10.5px;text-transform:uppercase">Timestamp</th><th style="font-weight:600;padding:9px 10px;font-size:10.5px;text-transform:uppercase">Sample ID</th><th style="font-weight:600;padding:9px 10px;font-size:10.5px;text-transform:uppercase;text-align:right">X̄</th><th style="font-weight:600;padding:9px 10px;font-size:10.5px;text-transform:uppercase">Collected by</th><th style="font-weight:600;padding:9px 16px;font-size:10.5px;text-transform:uppercase">Product</th></tr></thead>
+              <tbody>
+                <sc-for list="{{ records }}" as="r" hint-placeholder-count="6">
+                  <tr style="border-top:1px solid var(--border)" style-hover="background:var(--hover)">
+                    <td style="padding:9px 16px"><span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:{{ r.stColor }};background:{{ r.stBg }};border-radius:5px;padding:2px 8px"><span style="width:6px;height:6px;border-radius:50%;background:{{ r.stColor }}"></span>{{ r.st }}</span></td>
+                    <td style="padding:9px 10px;color:var(--text-2);font-variant-numeric:tabular-nums">{{ r.ts }}</td>
+                    <td style="padding:9px 10px"><span style="color:var(--accent-fg);font-weight:600">{{ r.id }}</span></td>
+                    <td style="padding:9px 10px;text-align:right;font-variant-numeric:tabular-nums">{{ r.xbar }}</td>
+                    <td style="padding:9px 10px;color:var(--text-2)">{{ r.user }}</td>
+                    <td style="padding:9px 16px;color:var(--text-2);font-variant-numeric:tabular-nums">{{ r.prod }}</td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- right status/details panel -->
+      <sc-if value="{{ detailOpen }}" hint-placeholder-val="{{ true }}">
+      <div style="width:300px;flex:none;display:flex;flex-direction:column;overflow-y:auto;background:var(--surface);border-left:1px solid var(--border)">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--border)"><span style="font-size:13px;font-weight:700">Object Details</span><button onClick="{{ toggleDetail }}" title="Close" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:var(--text-3);cursor:pointer;border-radius:5px" style-hover="background:var(--hover);color:var(--text)">✕</button></div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:18px">
+          <div>
+            <div style="font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text-3);margin-bottom:9px">METADATA</div>
+            <div style="display:flex;flex-direction:column;gap:8px;font-size:12.5px">
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Owner</span><span style="font-weight:600">Riberet Almeida</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">KPI</span><span style="font-weight:600">2</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Last reset</span><span style="font-weight:600">8/28/2025</span></div>
+              <div style="display:flex;justify-content:space-between"><span style="color:var(--text-3)">Specs</span><span style="font-weight:600">USL 20 · LSL −20</span></div>
+            </div>
+          </div>
+          <div style="border-top:1px solid var(--border);padding-top:16px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text-3);margin-bottom:9px">SECURITY</div>
+            <div style="display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--accent-soft);border:1px solid var(--accent);border-radius:8px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--accent-fg)" stroke-width="2"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"></path></svg><div style="line-height:1.25"><div style="font-size:12px;font-weight:700;color:var(--accent-fg)">SUPER-USER · Write</div><div style="font-size:10.5px;color:var(--text-2)">Farmers Branch · Livermore</div></div></div>
+          </div>
+          <div style="border-top:1px solid var(--border);padding-top:16px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px">ACTIONS</div>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <sc-for list="{{ actions }}" as="a" hint-placeholder-count="5">
+                <button title="{{ a.title }}" style="display:flex;align-items:center;gap:10px;width:100%;height:36px;padding:0 12px;background:{{ a.bg }};border:1px solid var(--border);border-radius:8px;cursor:{{ a.cursor }};color:{{ a.fg }};font-size:12.5px;font-weight:600;text-align:left" style-hover="border-color:var(--border-strong)"><span style="flex:none">{{ a.icon }}</span><span style="flex:1">{{ a.label }}</span><sc-if value="{{ a.locked }}"><span style="display:inline-flex;align-items:center;gap:4px;font-size:9.5px;font-weight:700;color:var(--text-3)"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>ADMIN</span></sc-if></button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="border-top:1px solid var(--border);padding-top:16px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:.08em;color:var(--text-3);margin-bottom:10px">ACTIVITY</div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-for list="{{ activity }}" as="ev" hint-placeholder-count="3"><div style="display:flex;gap:10px"><span style="width:7px;height:7px;border-radius:50%;background:{{ ev.dot }};margin-top:5px;flex:none"></span><div style="line-height:1.3"><div style="font-size:12px">{{ ev.text }}</div><div style="font-size:10.5px;color:var(--text-3)">{{ ev.when }}</div></div></div></sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- ============ OPTION 3 — HYBRID SENTIENT NAVIGATOR ============ -->
+    <sc-if value="{{ isOpt3 }}">
+    <div style="flex:1;min-width:0;display:flex;overflow-x:auto">
+
+      <!-- icon rail (expandable) -->
+      <div style="width:{{ railW }}px;flex:none;display:flex;flex-direction:column;background:var(--rail);border-right:1px solid var(--rail-border);transition:width .18s ease;overflow:hidden">
+        <button onClick="{{ toggleRail }}" style="display:flex;align-items:center;gap:12px;height:46px;flex:none;padding:0 18px;background:transparent;border:none;border-bottom:1px solid var(--rail-border);color:var(--rail-fg);cursor:pointer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg><sc-if value="{{ railExpanded }}"></sc-if></button>
+        <div style="flex:1;overflow-y:auto;overflow-x:hidden;padding:8px;display:flex;flex-direction:column;gap:2px">
+          <sc-for list="{{ modules }}" as="m" hint-placeholder-count="10">
+            <button onClick="{{ m.onClick }}" title="{{ m.title }}" style="position:relative;display:flex;align-items:center;gap:13px;height:38px;flex:none;padding:0 11px;border:none;border-radius:7px;cursor:{{ m.cursor }};background:{{ m.bg }};color:{{ m.fg }};font-size:12.5px;font-weight:{{ m.fw }};white-space:nowrap" style-hover="background:var(--rail-border)"><span style="position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:{{ m.bar }}"></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="{{ m.icon }}"></path></svg><sc-if value="{{ railExpanded }}"><span style="flex:1;text-align:left">{{ m.label }}</span></sc-if><sc-if value="{{ m.locked }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex:none;opacity:.8"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg></sc-if></button>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- classic tree panel -->
+      <div style="width:286px;flex:none;display:flex;flex-direction:column;background:var(--surface);border-right:1px solid var(--border)">
+        <div style="padding:12px 14px 10px;border-bottom:1px solid var(--border)">
+          <div style="font-size:14px;font-weight:700;margin-bottom:9px">Configuration</div>
+          <div style="display:flex;gap:7px">
+            <div style="flex:1;display:flex;align-items:center;gap:7px;height:30px;padding:0 9px;background:var(--surface-2);border:1px solid var(--border);border-radius:6px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4.35-4.35"></path></svg><input value="{{ query }}" onInput="{{ onQuery }}" placeholder="Filter by block…" style="flex:1;min-width:0;border:none;background:transparent;outline:none;color:var(--text);font-size:12px;font-family:inherit"></div>
+            <button style="height:30px;padding:0 11px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer">Filter</button>
+          </div>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:6px 8px 14px">
+          <sc-for list="{{ treeRows }}" as="node" hint-placeholder-count="14">
+            <div onClick="{{ node.onRow }}" style="display:flex;align-items:center;gap:6px;height:29px;padding:0 8px 0 {{ node.pad }}px;cursor:pointer;border-radius:6px;background:{{ node.rowBg }};color:{{ node.rowFg }};font-weight:{{ node.fw }}" style-hover="background:var(--hover)">
+              <sc-if value="{{ node.hasChildren }}"><span onClick="{{ node.onCaret }}" style="display:flex;align-items:center;justify-content:center;width:16px;height:16px;flex:none;color:var(--text-3);transform:rotate({{ node.caret }}deg);transition:transform .12s"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M9 6l6 6-6 6"></path></svg></span></sc-if>
+              <sc-if value="{{ node.leaf }}"><span style="width:16px;flex:none"></span></sc-if>
+              <span style="flex:none;color:{{ node.iconColor }}">{{ node.typeIcon }}</span>
+              <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px">{{ node.label }}</span>
+              <sc-if value="{{ node.status }}"><span style="width:7px;height:7px;border-radius:50%;flex:none;background:{{ node.statusColor }}"></span></sc-if>
+              <sc-if value="{{ node.lockedItem }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg></sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <!-- main content -->
+      <div style="flex:1;min-width:440px;display:flex;flex-direction:column;overflow-y:auto;background:var(--bg)">
+        <!-- PATH strip -->
+        <div style="display:flex;align-items:center;gap:14px;padding:13px 22px;background:var(--surface);border-bottom:1px solid var(--border);flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:7px;font-size:12.5px;flex-wrap:wrap"><span style="font-size:10.5px;font-weight:700;letter-spacing:.05em;color:var(--text-3)">PATH</span><sc-for list="{{ crumbs }}" as="c" hint-placeholder-count="5"><span style="font-weight:{{ c.fw }};color:{{ c.color }}">{{ c.label }}</span><sc-if value="{{ c.sep }}"><span style="color:var(--text-3)">›</span></sc-if></sc-for></div>
+          <div style="margin-left:auto;display:flex;align-items:center;gap:14px;font-size:12px">
+            <span style="color:var(--text-3)">Owner <b style="color:var(--text)">Riberet Almeida</b></span>
+            <span style="display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;color:var(--accent-fg);background:var(--accent-soft);border-radius:5px;padding:3px 8px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"></path></svg>SUPER-USER</span>
+          </div>
+        </div>
+
+        <div style="padding:16px 22px 4px">
+          <!-- parameter header -->
+          <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px">
+            <h1 style="margin:0;font-size:22px;font-weight:700">ROT</h1>
+            <span style="font-size:11px;font-weight:700;color:var(--accent-fg);background:var(--accent-soft);border-radius:5px;padding:2px 7px">KPI 2</span>
+            <span style="font-size:11.5px;color:var(--text-2)">AUTO-QC · Limits SPREAD=3σ · CENTER=Fixed Target · Filter <b style="color:var(--text)">SMA02 | T11.2P</b></span>
+            <div style="margin-left:auto;display:flex;gap:8px">
+              <button style="display:flex;align-items:center;gap:6px;height:32px;padding:0 13px;background:var(--accent);color:#fff;border:none;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer" style-hover="background:var(--accent-2)"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M3 3v18h18"></path><path d="M7 14l4-4 3 3 5-6"></path></svg>Data Insights</button>
+              <button style="height:32px;padding:0 13px;background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:7px;font-size:12px;font-weight:600;cursor:pointer" style-hover="background:var(--hover)">Chart Actions</button>
+            </div>
+          </div>
+
+          <!-- capability strip -->
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <sc-for list="{{ capGroups }}" as="g" hint-placeholder-count="4">
+              <div style="flex:1;min-width:190px;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);padding:11px 14px">
+                <div style="font-size:10px;font-weight:700;letter-spacing:.05em;color:var(--text-3);text-transform:uppercase;margin-bottom:9px">{{ g.title }}</div>
+                <div style="display:flex;gap:16px;flex-wrap:wrap">
+                  <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="4">
+                    <div><div style="font-size:10px;color:var(--text-3);font-weight:600">{{ it.l }}</div><div style="font-size:18px;font-weight:700;color:{{ it.c }};font-variant-numeric:tabular-nums">{{ it.v }}</div></div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <!-- charts row -->
+        <div style="padding:14px 22px 4px;display:flex;gap:14px;align-items:stretch;flex-wrap:wrap">
+          <div style="flex:2.3;min-width:360px;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);overflow:hidden">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)"><div><div style="font-size:13px;font-weight:700">X-Bar Statistics · ROTATION</div><div style="font-size:11px;color:var(--text-3)">Mean 3.2 · Sigma 7.4 · Range 48.3 · UCL 15.3 / LCL −15.3 · CL 0</div></div><div style="text-align:right"><div style="font-size:10px;font-weight:700;color:var(--text-3)">TREND RULES</div><div style="font-size:11px;font-weight:600;color:var(--accent-fg)">WECO1 · WECO3 · WECO5</div></div></div>
+            <div style="height:214px;padding:12px 14px 6px">{{ spcEl }}</div>
+          </div>
+          <div style="flex:1;min-width:220px;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);overflow:hidden">
+            <div style="padding:12px 16px;border-bottom:1px solid var(--border)"><div style="font-size:13px;font-weight:700">ROT Histogram</div><div style="font-size:11px;color:var(--text-3)">Count 250 · Median 3.1 · Skew −1.2</div></div>
+            <div style="height:214px;padding:12px 14px 6px">{{ histEl }}</div>
+          </div>
+        </div>
+
+        <!-- records -->
+        <div style="padding:14px 22px 22px">
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);overflow:hidden">
+            <div style="display:flex;align-items:center;gap:8px;padding:11px 16px;border-bottom:1px solid var(--border);flex-wrap:wrap">
+              <button style="height:28px;padding:0 11px;background:var(--surface-2);color:var(--text-2);border:1px solid var(--border);border-radius:6px;font-size:11.5px;font-weight:600;cursor:pointer" style-hover="background:var(--hover)">Reload Records</button>
+              <button style="height:28px;padding:0 11px;background:var(--bad-soft);color:var(--bad);border:1px solid var(--bad);border-radius:6px;font-size:11.5px;font-weight:600;cursor:pointer">Show Pending Violation [29]</button>
+              <button style="height:28px;padding:0 11px;background:var(--surface-2);color:var(--text-2);border:1px solid var(--border);border-radius:6px;font-size:11.5px;font-weight:600;cursor:pointer" style-hover="background:var(--hover)">Show All [250]</button>
+            </div>
+            <table style="width:100%;border-collapse:collapse;font-size:12px">
+              <thead><tr style="text-align:left;color:var(--text-3)"><th style="font-weight:600;padding:9px 16px;font-size:10.5px;text-transform:uppercase">Violation</th><th style="font-weight:600;padding:9px 10px;font-size:10.5px;text-transform:uppercase">Timestamp</th><th style="font-weight:600;padding:9px 10px;font-size:10.5px;text-transform:uppercase">Sample ID</th><th style="font-weight:600;padding:9px 10px;font-size:10.5px;text-transform:uppercase;text-align:right">X̄</th><th style="font-weight:600;padding:9px 10px;font-size:10.5px;text-transform:uppercase;text-align:right">Sigma</th><th style="font-weight:600;padding:9px 10px;font-size:10.5px;text-transform:uppercase">Collected by</th><th style="font-weight:600;padding:9px 16px;font-size:10.5px;text-transform:uppercase">Product</th></tr></thead>
+              <tbody>
+                <sc-for list="{{ records }}" as="r" hint-placeholder-count="6">
+                  <tr style="border-top:1px solid var(--border)" style-hover="background:var(--hover)">
+                    <td style="padding:9px 16px"><span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:{{ r.stColor }};background:{{ r.stBg }};border-radius:5px;padding:2px 8px"><span style="width:6px;height:6px;border-radius:50%;background:{{ r.stColor }}"></span>{{ r.st }}</span></td>
+                    <td style="padding:9px 10px;color:var(--text-2);font-variant-numeric:tabular-nums">{{ r.ts }}</td>
+                    <td style="padding:9px 10px"><span style="color:var(--accent-fg);font-weight:600">{{ r.id }}</span></td>
+                    <td style="padding:9px 10px;text-align:right;font-variant-numeric:tabular-nums">{{ r.xbar }}</td>
+                    <td style="padding:9px 10px;text-align:right;color:var(--text-2);font-variant-numeric:tabular-nums">{{ r.sig }}</td>
+                    <td style="padding:9px 10px;color:var(--text-2)">{{ r.user }}</td>
+                    <td style="padding:9px 16px;color:var(--text-2);font-variant-numeric:tabular-nums">{{ r.prod }}</td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;}}">
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.state = {
+      theme:'light', option:1, railExpanded:true, bladeOpen:true, detailOpen:true,
+      active:'config', selected:'rot_sma02_t112p', query:'',
+      openSet:{ fac:true, fb:true, litho:true, ovl:true, mm:true, rot:true }
+    };
+    this.modules = [
+      {id:'home',label:'Home',icon:'M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10'},
+      {id:'config',label:'Configuration',icon:'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6'},
+      {id:'workflow',label:'Workflow',icon:'M6 4v10M18 8a3 3 0 100-6 3 3 0 000 6zM6 21a3 3 0 100-6 3 3 0 000 6zM18 8a9 9 0 01-9 9'},
+      {id:'collect',label:'Data Collection',icon:'M12 8c4.97 0 9-1.34 9-3s-4.03-3-9-3-9 1.34-9 3 4.03 3 9 3zM3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5'},
+      {id:'process',label:'Process Control',icon:'M22 12h-4l-3 9L9 3l-3 9H2'},
+      {id:'report',label:'Reporting',icon:'M3 3v18h18M7 15v-5M12 15V7M17 15v-9'},
+      {id:'explorer',label:'Data Explorer',icon:'M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35'},
+      {id:'ncmr',label:'NCMR',icon:'M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0zM12 9v4M12 17h.01',locked:true},
+      {id:'mrp',label:'MRP Tool',icon:'M21 16V8a2 2 0 00-1-1.7l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.7l7 4a2 2 0 002 0l7-4A2 2 0 0021 16zM3.3 7L12 12l8.7-5M12 22V12'},
+      {id:'support',label:'App Support',icon:'M12 22a10 10 0 100-20 10 10 0 000 20zM12 16a4 4 0 100-8 4 4 0 000 8zM4.9 4.9l4.3 4.3M14.8 14.8l4.3 4.3M14.8 9.2l4.3-4.3M9.2 14.8l-4.3 4.3'}
+    ];
+    this.tree = [
+      {id:'fac',label:'Facilities',type:'facility',children:[
+        {id:'fb',label:'Farmers Branch',type:'facility',children:[
+          {id:'litho',label:'Lithography',type:'area',children:[
+            {id:'litho_cd',label:'LITHO_CD',type:'area'},
+            {id:'litho_insp',label:'LITHO_INSP',type:'area'},
+            {id:'ovl',label:'LITHO_OVL',type:'area',children:[
+              {id:'mm',label:'LITHO_OVL_T11_BM2_MM00E',type:'equip',children:[
+                {id:'rot',label:'ROT',type:'param',children:[
+                  {id:'rot_sma02_t112p',label:'SMA02 | T11.2P',type:'leaf',status:'violation'},
+                  {id:'rot_sma02_t114s',label:'SMA02 | T11.4S',type:'leaf',status:'pass'},
+                  {id:'rot_sma01_t112p',label:'SMA01 | T11.2P',type:'leaf',status:'pass'},
+                  {id:'rot_sma01_t117p',label:'SMA01 | T11.7P',type:'leaf',status:'violation'}
+                ]},
+                {id:'tx',label:'TX',type:'param'},
+                {id:'ty',label:'TY',type:'param'}
+              ]},
+              {id:'ovl_sp',label:'LITHO_OVL_T11_SP_MM00B',type:'equip'}
+            ]}
+          ]},
+          {id:'lam',label:'Lamination',type:'area'},
+          {id:'iqa',label:'IQA',type:'area',locked:true}
+        ]},
+        {id:'liv',label:'Livermore',type:'facility'}
+      ]}
+    ];
+    this.records = [
+      {st:'PASS',ts:'6/16 17:45:45',id:'W299012.2',xbar:'5.6529',rng:'0',sig:'2.10',user:'A. Brasil',prod:'159-500964A'},
+      {st:'PASS',ts:'6/16 17:45:38',id:'W299406.2',xbar:'2.1729',rng:'0',sig:'1.84',user:'K. Kea',prod:'159-440073A'},
+      {st:'VIOLATION',ts:'6/16 17:15:57',id:'W298948.2',xbar:'15.1765',rng:'0',sig:'4.02',user:'P. Tran',prod:'159-500964B'},
+      {st:'PASS',ts:'6/16 17:15:51',id:'W298765.5',xbar:'-1.1765',rng:'0',sig:'1.61',user:'P. Tran',prod:'159-500743A'},
+      {st:'VIOLATION',ts:'6/16 17:15:28',id:'W298653.2',xbar:'-22.6471',rng:'0',sig:'5.31',user:'P. Tran',prod:'159-500670B'},
+      {st:'PASS',ts:'6/16 16:58:02',id:'W298540.1',xbar:'1.6471',rng:'0',sig:'1.42',user:'A. Brasil',prod:'159-500964A'}
+    ];
+    this.metricsRaw = [
+      {label:'Cpk',value:'0.90',tone:'warn',sub:'capability'},
+      {label:'Cp',value:'1.07',tone:'good',sub:'capability'},
+      {label:'Pp',value:'0.90',tone:'warn',sub:'performance'},
+      {label:'Ppk',value:'0.76',tone:'bad',sub:'performance'},
+      {label:'Desirability',value:'0.40',tone:'bad',sub:'index'},
+      {label:'Violations',value:'29',tone:'bad',sub:'of 250'}
+    ];
+    this.recentsRaw = [
+      {label:'ROT · SMA02',dot:'var(--bad)'},
+      {label:'TX · SMA01',dot:'var(--good)'},
+      {label:'LITHO_CD',dot:'var(--good)'}
+    ];
+    this.actionsRaw = [
+      {label:'View Data',icon:'table'},
+      {label:'Open Chart',icon:'chart'},
+      {label:'View Records',icon:'list'},
+      {label:'Configure Limits',icon:'sliders'},
+      {label:'Archive Parameter',icon:'archive',locked:true}
+    ];
+    this.activityRaw = [
+      {text:'Violation flagged on W298653.2',when:'2 hours ago',dot:'var(--bad)'},
+      {text:'Control limits auto-reset (3σ)',when:'Aug 28, 2025',dot:'var(--accent)'},
+      {text:'Owner changed to R. Almeida',when:'Aug 12, 2025',dot:'var(--text-3)'}
+    ];
+    this.spcData = this._genSpc();
+  }
+
+  _genSpc(){
+    let s=20260618;
+    const rnd=()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};
+    const a=[];
+    for(let i=0;i<46;i++){ let v=(rnd()+rnd()+rnd()-1.5)*9; if(rnd()<0.09) v-=rnd()*16; a.push(Math.max(-29,Math.min(20,v))); }
+    return a;
+  }
+
+  _toggle(id){ this.setState(s=>{ const o={...s.openSet}; o[id]=!o[id]; return {openSet:o}; }); }
+  _flatten(nodes,depth,out){ for(const nd of nodes){ const open=!!this.state.openSet[nd.id]; const has=!!(nd.children&&nd.children.length); out.push({nd,depth,open,has}); if(has&&open) this._flatten(nd.children,depth+1,out); } }
+
+  _typeIcon(type){
+    const map={
+      facility:'M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M15 9h.01M9 13h.01M15 13h.01',
+      area:'M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z',
+      equip:'M9 3v2M15 3v2M9 19v2M15 19v2M3 9h2M3 15h2M19 9h2M19 15h2M7 7h10v10H7z',
+      param:'M22 12h-4l-3 9L9 3l-3 9H2',
+      leaf:'M3 3v18h18M7 14l4-4 3 3 5-6'
+    };
+    const d=map[type]||map.leaf;
+    return React.createElement('svg',{width:14,height:14,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:1.9,strokeLinecap:'round',strokeLinejoin:'round'},React.createElement('path',{d}));
+  }
+  _actIcon(name){
+    const map={table:'M3 3h18v18H3zM3 9h18M3 15h18M9 3v18',chart:'M3 3v18h18M7 14l4-4 3 3 5-6',list:'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01',sliders:'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6',archive:'M21 8v13H3V8M1 3h22v5H1zM10 12h4'};
+    return React.createElement('svg',{width:15,height:15,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:1.9,strokeLinecap:'round',strokeLinejoin:'round'},React.createElement('path',{d:map[name]||map.list}));
+  }
+
+  chartColors(){
+    const d=this.state.theme==='dark';
+    return {grid:d?'#1c2840':'#eef2f7',text:d?'#6b7a94':'#9aa7b8',line:d?'#5566800':'#9aa7b8',
+      lineStroke:d?'#54627e':'#9aa7b8',point:d?'#3b82f6':'#2563eb',dot:d?'#0a1120':'#ffffff',
+      bad:d?'#f87171':'#dc2626',ucl:d?'#3a4661':'#cbd5e1',spec:d?'#f87171':'#dc2626',
+      center:d?'#34d399':'#16a34a',band:d?'rgba(59,130,246,.08)':'rgba(37,99,235,.06)',
+      bar:d?'#3b82f6':'#3b82f6'};
+  }
+  spcEl(){
+    const h=React.createElement,c=this.chartColors(),d=this.spcData,n=d.length;
+    const W=620,H=240,pl=40,pr=12,pt=14,pb=24,pw=W-pl-pr,ph=H-pt-pb,ymin=-30,ymax=30;
+    const Y=v=>pt+(ymax-v)/(ymax-ymin)*ph, X=i=>pl+(i/(n-1))*pw;
+    const ucl=15.3,lcl=-15.3,usl=20,lsl=-20,e=[];
+    e.push(h('rect',{key:'band',x:pl,y:Y(ucl),width:pw,height:Y(lcl)-Y(ucl),fill:c.band}));
+    [20,10,0,-10,-20].forEach((g,i)=>{e.push(h('line',{key:'g'+i,x1:pl,x2:pl+pw,y1:Y(g),y2:Y(g),stroke:c.grid,strokeWidth:1}));e.push(h('text',{key:'t'+i,x:pl-7,y:Y(g)+3,textAnchor:'end',fontSize:9,fill:c.text},g));});
+    e.push(h('line',{key:'usl',x1:pl,x2:pl+pw,y1:Y(usl),y2:Y(usl),stroke:c.spec,strokeWidth:1.6}));
+    e.push(h('line',{key:'lsl',x1:pl,x2:pl+pw,y1:Y(lsl),y2:Y(lsl),stroke:c.spec,strokeWidth:1.6}));
+    e.push(h('line',{key:'uc',x1:pl,x2:pl+pw,y1:Y(ucl),y2:Y(ucl),stroke:c.ucl,strokeDasharray:'4 3',strokeWidth:1}));
+    e.push(h('line',{key:'lc',x1:pl,x2:pl+pw,y1:Y(lcl),y2:Y(lcl),stroke:c.ucl,strokeDasharray:'4 3',strokeWidth:1}));
+    e.push(h('line',{key:'cl',x1:pl,x2:pl+pw,y1:Y(0),y2:Y(0),stroke:c.center,strokeWidth:1.3}));
+    e.push(h('path',{key:'ln',d:d.map((v,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)).join(' '),fill:'none',stroke:c.lineStroke,strokeWidth:1.2}));
+    d.forEach((v,i)=>{const bad=v<lcl||v>ucl;e.push(h('circle',{key:'p'+i,cx:X(i),cy:Y(v),r:bad?3.2:2.4,fill:bad?c.bad:c.dot,stroke:bad?c.bad:c.point,strokeWidth:1.4}));});
+    return h('svg',{viewBox:'0 0 '+W+' '+H,style:{width:'100%',height:'100%',display:'block'},preserveAspectRatio:'xMidYMid meet'},e);
+  }
+  histEl(){
+    const h=React.createElement,c=this.chartColors();
+    const bins=[1,1,2,4,7,11,17,24,31,33,30,23,16,10,5,3,2,1];
+    const W=240,H=240,pl=6,pr=6,pt=12,pb=26,pw=W-pl-pr,ph=H-pt-pb,max=Math.max(...bins),bw=pw/bins.length,e=[];
+    bins.forEach((b,i)=>{const bh=b/max*ph;e.push(h('rect',{key:'b'+i,x:pl+i*bw+1,y:pt+ph-bh,width:bw-2,height:bh,rx:1,fill:c.bar,opacity:.85}));});
+    const ux=pl+15.0*bw, lx=pl+1.7*bw;
+    e.push(h('line',{key:'u',x1:ux,x2:ux,y1:pt-2,y2:pt+ph,stroke:c.spec,strokeWidth:2}));
+    e.push(h('line',{key:'l',x1:lx,x2:lx,y1:pt-2,y2:pt+ph,stroke:c.spec,strokeWidth:2}));
+    e.push(h('text',{key:'ul',x:ux,y:H-10,textAnchor:'middle',fontSize:9,fontWeight:600,fill:c.spec},'USL 20'));
+    e.push(h('text',{key:'ll',x:lx,y:H-10,textAnchor:'middle',fontSize:9,fontWeight:600,fill:c.spec},'LSL −20'));
+    return h('svg',{viewBox:'0 0 '+W+' '+H,style:{width:'100%',height:'100%',display:'block'},preserveAspectRatio:'xMidYMid meet'},e);
+  }
+
+  renderVals(){
+    const S=this.state, toneCol={good:'var(--good)',warn:'var(--warn)',bad:'var(--bad)'};
+    const optMeta={1:{label:'Azure Resource Navigator'},2:{label:'Operations Cockpit'},3:{label:'Hybrid Navigator'}};
+    const caps={1:'Closest to the Azure portal — icon rail, hierarchy blade, content + details blades that open side-by-side.',2:'Object-centric operations cockpit — status cards, central workspace, live details panel.',3:'Easiest transition — keeps the familiar Sentient tree, modernized with icons, search & breadcrumbs.'};
+
+    const optTabs=[1,2,3].map(n=>({n, label:optMeta[n].label, onClick:()=>this.setState({option:n}),
+      bg: S.option===n?'var(--surface)':'transparent', fg: S.option===n?'var(--accent-fg)':'var(--text-2)',
+      shadow: S.option===n?'var(--shadow)':'none'}));
+
+    const modules=this.modules.map(m=>{const active=m.id===S.active, locked=!!m.locked;
+      return {...m, title: locked?(m.label+' — restricted (no access)'):m.label,
+        onClick: locked?(()=>{}):(()=>this.setState({active:m.id})),
+        bar: active?'var(--accent)':'transparent', bg: active?'var(--accent-soft)':'transparent',
+        fg: locked?'var(--text-3)':active?'var(--accent-fg)':'var(--rail-fg)',
+        fw: active?'600':'500', cursor: locked?'not-allowed':'pointer'};
+    });
+
+    const vis=[]; this._flatten(this.tree,0,vis);
+    const q=S.query.trim().toLowerCase();
+    const statusCol={pass:'var(--good)',violation:'var(--bad)'};
+    let treeRows=vis.map(({nd,depth,open,has})=>{const sel=nd.id===S.selected;
+      return {id:nd.id,label:nd.label,depth,pad:10+depth*15,hasChildren:has,leaf:!has,
+        caret: open?90:0, typeIcon:this._typeIcon(nd.type),
+        iconColor: nd.type==='param'?'var(--accent)':sel?'var(--accent-fg)':'var(--text-3)',
+        status:!!nd.status, statusColor: statusCol[nd.status]||'transparent',
+        lockedItem:!!nd.locked,
+        rowBg: sel?'var(--accent-soft)':'transparent', rowFg: sel?'var(--accent-fg)':'var(--text)', fw: sel?'600':'400',
+        onRow:()=>{ if(has) this._toggle(nd.id); this.setState({selected:nd.id}); },
+        onCaret:(e)=>{ if(e&&e.stopPropagation) e.stopPropagation(); this._toggle(nd.id); }};
+    });
+    if(q) treeRows=treeRows.filter(r=>r.label.toLowerCase().includes(q));
+
+    const crumbsRaw=['Configuration','Lithography','LITHO_OVL','ROT','SMA02 | T11.2P'];
+    const crumbs=crumbsRaw.map((label,i)=>({label, sep:i<crumbsRaw.length-1,
+      fw:i===crumbsRaw.length-1?'700':'500', color:i===crumbsRaw.length-1?'var(--text)':'var(--text-2)'}));
+
+    const metrics=this.metricsRaw.map(k=>({...k,color:toneCol[k.tone]||'var(--text)'}));
+    const records=this.records.map(r=>{const bad=r.st==='VIOLATION';
+      return {...r, stColor: bad?'var(--bad)':'var(--good)', stBg: bad?'var(--bad-soft)':'var(--good-soft)'};});
+    const actions=this.actionsRaw.map(a=>({label:a.label, icon:this._actIcon(a.icon), locked:!!a.locked,
+      title: a.locked?(a.label+' — requires Admin role'):a.label,
+      bg:a.locked?'var(--surface-2)':'var(--surface)', fg:a.locked?'var(--text-3)':'var(--text)',
+      cursor:a.locked?'not-allowed':'pointer'}));
+
+    return {
+      theme:S.theme, themeIcon: S.theme==='dark'?'☀':'☾', isDark:S.theme==='dark',
+      toggleTheme:()=>this.setState(s=>({theme:s.theme==='dark'?'light':'dark'})),
+      isOpt1:S.option===1, isOpt2:S.option===2, isOpt3:S.option===3,
+      optTabs, optCaption:caps[S.option],
+      railExpanded:S.railExpanded, railW:S.railExpanded?210:60, toggleRail:()=>this.setState(s=>({railExpanded:!s.railExpanded})),
+      bladeOpen:S.bladeOpen, bladeClosed:!S.bladeOpen, toggleBlade:()=>this.setState(s=>({bladeOpen:!s.bladeOpen})),
+      detailOpen:S.detailOpen, toggleDetail:()=>this.setState(s=>({detailOpen:!s.detailOpen})),
+      modules, treeRows, query:S.query, onQuery:(e)=>this.setState({query:e.target.value}),
+      recents:this.recentsRaw, crumbs, metrics, records, actions, activity:this.activityRaw,
+      pinned:[{name:'ROT · SMA02 | T11.2P',meta:'LITHO_OVL · 29 violations',dot:'var(--bad)'},{name:'TX · SMA01 | T11.2P',meta:'LITHO_OVL · in control',dot:'var(--good)'}],
+      capGroups:[
+        {title:'Capability (Cp)',items:[{l:'Cp',v:'1.07',c:'var(--good)'},{l:'Cpk',v:'0.90',c:'var(--warn)'},{l:'Cpu',v:'0.90',c:'var(--warn)'},{l:'Cpl',v:'1.24',c:'var(--good)'}]},
+        {title:'Performance (Pp)',items:[{l:'Pp',v:'0.90',c:'var(--warn)'},{l:'Ppk',v:'0.76',c:'var(--bad)'},{l:'Ppu',v:'0.76',c:'var(--bad)'},{l:'Ppl',v:'1.05',c:'var(--good)'}]},
+        {title:'Specifications',items:[{l:'USL',v:'20',c:'var(--text)'},{l:'LSL',v:'−20',c:'var(--text)'},{l:'Target',v:'0',c:'var(--text)'}]},
+        {title:'Desirability Index',items:[{l:'Index',v:'0.40',c:'var(--bad)'},{l:'D1',v:'0.89',c:'var(--text)'},{l:'D2',v:'0.87',c:'var(--text)'},{l:'D3',v:'0.08',c:'var(--bad)'}]}
+      ],
+      spcEl:this.spcEl(), histEl:this.histEl()
+    };
+  }
+}
+</script>
+</body>
+</html>

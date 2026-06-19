@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Inter',Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  :root{
+    --bg:#000000; --surface:#0a0a0a; --surface-2:#000000; --inset:#101010;
+    --border:#262626; --border-muted:#1a1a1a; --border-strong:#3d3d3d; --hover:#171717;
+    --text:#ffffff; --text-2:#ffffff; --text-3:#ffffff;
+    --locked:#6b6b6b; --on-accent:#000000;
+    --accent:#ffffff; --accent-fg:#ffffff; --sel:rgba(255,255,255,.13); --sel-border:#ffffff;
+    --good:#9a9a9a; --warn:#c4c4c4; --bad:#ffffff;
+    --shadow:0 10px 28px rgba(0,0,0,.7);
+  }
+  [data-theme="light"]{
+    --bg:#ffffff; --surface:#ffffff; --surface-2:#ffffff; --inset:#f6f8fa;
+    --border:#d0d7de; --border-muted:#e6eaee; --border-strong:#afb8c1; --hover:#f3f4f6;
+    --text:#1f2328; --text-2:#1f2328; --text-3:#1f2328;
+    --locked:#9aa3ad; --on-accent:#ffffff;
+    --accent:#1f2328; --accent-fg:#1f2328; --sel:#e6e8ec; --sel-border:#1f2328;
+    --good:#8a929b; --warn:#8a929b; --bad:#1f2328;
+    --shadow:0 8px 24px rgba(31,35,40,.14);
+  }
+  ::-webkit-scrollbar{width:9px;height:9px}
+  ::-webkit-scrollbar-thumb{background:var(--border);border-radius:6px;border:2px solid transparent;background-clip:padding-box}
+  ::-webkit-scrollbar-track{background:transparent}
+  input{font-family:inherit}
+  button{font-family:inherit}
+  .logo-light,.logo-dark{vertical-align:middle}
+  .logo-light{display:inline-block}
+  .logo-dark{display:none}
+  [data-theme="dark"] .logo-light{display:none}
+  [data-theme="dark"] .logo-dark{display:inline-block}
+</style>
+</helmet>
+
+<div data-theme="{{ theme }}" style="height:100vh;width:100vw;overflow:hidden;background:var(--bg);color:var(--text)">
+<div style="zoom:{{ zoom }};width:{{ appW }};height:{{ appH }};overflow:hidden;display:flex;flex-direction:column;font-size:12.5px;line-height:1.45">
+
+  <!-- ============================ LOGIN ============================ -->
+  <sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;background:var(--bg);position:relative">
+    <div style="position:absolute;top:18px;left:20px;display:flex;align-items:center;gap:8px">
+      <img class="logo-light" src="assets/logo-black.png" alt="Sentient" style="height:22px">
+      <img class="logo-dark" src="assets/logo-white.png" alt="Sentient" style="height:22px">
+      <span style="font-size:13px;font-weight:600;letter-spacing:-.01em;color:var(--text)">Sentient</span>
+    </div>
+    <div style="width:360px;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:28px 30px 24px;box-shadow:var(--shadow)">
+      <div style="display:flex;justify-content:center;margin-bottom:14px">
+        <img class="logo-light" src="assets/logo-black.png" alt="Sentient" style="height:40px">
+        <img class="logo-dark" src="assets/logo-white.png" alt="Sentient" style="height:40px">
+      </div>
+      <h1 style="font-size:18px;font-weight:600;margin:0 0 4px;text-align:center">Sign in to Sentient</h1>
+      <p style="font-size:12px;color:var(--text-2);margin:0 0 20px;text-align:center"><br></p>
+      <button onClick="{{ doLogin }}" style="width:100%;height:36px;background:var(--accent);color:var(--on-accent);border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg>
+        Continue with SSO (SAML)
+      </button>
+      <p style="font-size:10px;color:var(--text-3);text-align:center;margin:8px 0 0">Standard sign-in for your organization</p>
+      <div style="display:flex;align-items:center;gap:10px;margin:16px 0">
+        <span style="flex:1;height:1px;background:var(--border)"></span><span style="font-size:10.5px;color:var(--text-3)">OR</span><span style="flex:1;height:1px;background:var(--border)"></span>
+      </div>
+      <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text-2);margin-bottom:5px">Username</label>
+      <input value="a.almeida" readonly="" style="width:100%;height:32px;padding:0 10px;margin-bottom:11px;background:var(--inset);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12.5px;outline:none">
+      <label style="display:block;font-size:11.5px;font-weight:600;color:var(--text-2);margin-bottom:5px">Password</label>
+      <input type="password" value="********" readonly="" style="width:100%;height:32px;padding:0 10px;margin-bottom:14px;background:var(--inset);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:12.5px;outline:none">
+      <button onClick="{{ doLogin }}" style="width:100%;height:32px;background:transparent;color:var(--text);border:1px solid var(--border);border-radius:6px;font-size:12.5px;font-weight:600;cursor:pointer">Sign in</button>
+      
+    </div>
+    <div style="position:absolute;bottom:16px;font-size:10.5px;color:var(--text-3)">Login concept — establishes user role &amp; security context before the Navigator shell loads.</div>
+  </div>
+  </sc-if>
+
+  <!-- ============================ APP SHELL ============================ -->
+  <sc-if value="{{ isApp }}" hint-placeholder-val="{{ true }}">
+
+  <!-- header -->
+  <div style="height:44px;flex:none;display:flex;align-items:center;gap:8px;padding:0 10px;background:var(--surface);border-bottom:1px solid var(--border);position:relative;z-index:30">
+    <button onClick="{{ toggleLauncher }}" title="Sentient apps" style="width:28px;height:28px;flex:none;display:flex;align-items:center;justify-content:center;background:{{ launcherBg }};border:1px solid {{ launcherBorder }};border-radius:6px;color:var(--text-2);cursor:pointer" style-hover="background:var(--hover);color:var(--text)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="5" r="1.7"></circle><circle cx="12" cy="5" r="1.7"></circle><circle cx="19" cy="5" r="1.7"></circle><circle cx="5" cy="12" r="1.7"></circle><circle cx="12" cy="12" r="1.7"></circle><circle cx="19" cy="12" r="1.7"></circle><circle cx="5" cy="19" r="1.7"></circle><circle cx="12" cy="19" r="1.7"></circle><circle cx="19" cy="19" r="1.7"></circle></svg>
+    </button>
+    <button onClick="{{ toggleRail }}" title="Toggle navigation" style="width:28px;height:28px;flex:none;display:flex;align-items:center;justify-content:center;background:transparent;border:none;border-radius:6px;color:var(--text-2);cursor:pointer" style-hover="background:var(--hover);color:var(--text)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+    </button>
+    <div style="display:flex;align-items:center;gap:8px">
+      <img class="logo-light" src="assets/logo-black.png" alt="Sentient" style="height:30px;width:auto">
+      <img class="logo-dark" src="assets/logo-white.png" alt="Sentient" style="height:30px;width:auto">
+    </div>
+    <div style="flex:1"></div>
+
+    <button onClick="{{ toggleAi }}" title="Ask Sentient" style="display:flex;align-items:center;gap:6px;height:28px;flex:none;padding:0 10px;background:{{ aiBtnBg }};border:1px solid {{ aiBtnBorder }};border-radius:6px;cursor:pointer" style-hover="background:var(--hover)">
+      <svg width="15" height="15" viewBox="0 0 24 24"><defs><linearGradient id="askgradA" x1="2" y1="3" x2="22" y2="21" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f9508a"></stop><stop offset=".3" stop-color="#ff8a3d"></stop><stop offset=".55" stop-color="#22b364"></stop><stop offset=".78" stop-color="#2f81f7"></stop><stop offset="1" stop-color="#a371f7"></stop></linearGradient></defs><path fill="url(#askgradA)" d="M12 3l1.7 4.6L18 9l-4.3 1.4L12 15l-1.7-4.6L6 9l4.3-1.4z"></path><path fill="url(#askgradA)" d="M18.5 14l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"></path></svg>
+      <span style="font-size:11.5px;font-weight:600;color:var(--text)">Ask Sentient</span>
+    </button>
+    <button title="Notifications" style="position:relative;width:28px;height:28px;flex:none;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text-2);cursor:pointer" style-hover="background:var(--hover);color:var(--text)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.7 21a2 2 0 01-3.4 0"></path></svg>
+      <span style="position:absolute;top:4px;right:5px;width:6px;height:6px;border-radius:50%;background:var(--bad);border:1px solid var(--surface)"></span>
+    </button>
+
+    <!-- appearance -->
+    <div style="position:relative">
+      <button onClick="{{ toggleAppearance }}" title="Appearance &amp; settings" style="width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:{{ apprBg }};border:1px solid var(--border);border-radius:6px;color:var(--text-2);cursor:pointer" style-hover="background:var(--hover);color:var(--text)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>
+      </button>
+      <sc-if value="{{ appearanceOpen }}">
+      <div style="position:absolute;top:34px;right:0;width:236px;background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);padding:12px;z-index:40">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--text-3);margin-bottom:7px">THEME</div>
+        <div style="display:flex;gap:4px;padding:3px;background:var(--inset);border:1px solid var(--border);border-radius:7px;margin-bottom:13px">
+          <sc-for list="{{ themeOpts }}" as="o" hint-placeholder-count="2"><button onClick="{{ o.onClick }}" style="flex:1;height:26px;border:none;border-radius:5px;cursor:pointer;font-size:11.5px;font-weight:600;background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for>
+        </div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--text-3);margin-bottom:7px">SCALE</div>
+        <div style="display:flex;gap:4px;padding:3px;background:var(--inset);border:1px solid var(--border);border-radius:7px;margin-bottom:13px">
+          <sc-for list="{{ scaleOpts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.onClick }}" style="flex:1;height:26px;border:none;border-radius:5px;cursor:pointer;font-size:11.5px;font-weight:600;background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for>
+        </div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.06em;color:var(--text-3);margin-bottom:7px">DENSITY</div>
+        <div style="display:flex;gap:4px;padding:3px;background:var(--inset);border:1px solid var(--border);border-radius:7px">
+          <sc-for list="{{ densityOpts }}" as="o" hint-placeholder-count="2"><button onClick="{{ o.onClick }}" style="flex:1;height:26px;border:none;border-radius:5px;cursor:pointer;font-size:11.5px;font-weight:600;background:{{ o.bg }};color:{{ o.fg }}">{{ o.label }}</button></sc-for>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+
+    <!-- profile -->
+    <div style="position:relative">
+      <button onClick="{{ toggleProfile }}" style="display:flex;align-items:center;gap:6px;height:28px;padding:0 9px;background:transparent;border:1px solid var(--border);border-radius:6px;cursor:pointer" style-hover="background:var(--hover)">
+        <span style="font-size:11px;font-weight:400;color:var(--text-2)">R. Almeida</span>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2.4" stroke-linecap="round"><path d="M6 9l6 6 6-6"></path></svg>
+      </button>
+      <sc-if value="{{ profileOpen }}">
+      <div style="position:absolute;top:36px;right:0;width:210px;background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);z-index:40;overflow:hidden">
+        <div style="padding:12px 13px;border-bottom:1px solid var(--border)">
+          <div style="font-size:12.5px;font-weight:600">Riberet Almeida</div>
+          <div style="font-size:11px;color:var(--text-2);margin-top:1px">a.almeida@sentient.io</div>
+          <span style="display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:10px;font-weight:600;color:var(--text-2);background:var(--inset);border:1px solid var(--border);border-radius:5px;padding:2px 7px"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--text-2)" stroke-width="2.4"><path d="M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z"></path></svg>SUPER-USER</span>
+        </div>
+        <div style="padding:5px">
+          <div onClick="{{ doLogout }}" style="display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:6px;font-size:12px;color:var(--text);cursor:pointer" style-hover="background:var(--hover)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"></path></svg>Sign out</div>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <!-- body -->
+  <div style="flex:1;min-height:0;display:flex;overflow-x:auto;overflow-y:hidden" onClick="{{ closeMenus }}">
+
+    <!-- ICON RAIL -->
+    <div style="width:{{ railW }}px;flex:none;display:flex;flex-direction:column;background:var(--surface);border-right:1px solid var(--border);transition:width .15s ease;overflow:hidden">
+      <div style="flex:1;overflow-y:auto;overflow-x:hidden;padding:46px 8px 4px;display:flex;flex-direction:column;gap:4px">
+        <sc-for list="{{ modulesTop }}" as="m" hint-placeholder-count="10">
+          <button onClick="{{ m.onClick }}" title="{{ m.title }}" style="position:relative;display:flex;align-items:center;gap:5px;height:{{ rowH }}px;flex:none;padding:0 6px;border:none;border-radius:6px;cursor:{{ m.cursor }};background:{{ m.bg }};color:{{ m.fg }};font-size:12px;font-weight:{{ m.fw }};white-space:nowrap" style-hover="background:var(--hover)">
+            <span style="position:absolute;left:-8px;top:6px;bottom:6px;width:3px;border-radius:0 2px 2px 0;background:{{ m.bar }}"></span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="{{ m.icon }}"></path></svg>
+            <sc-if value="{{ railExpanded }}"><span style="flex:1;text-align:left">{{ m.label }}</span></sc-if>
+            <sc-if value="{{ m.locked }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--locked)" stroke-width="2.2" style="flex:none"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg></sc-if>
+          </button>
+        </sc-for>
+      </div>
+      <div style="border-top:1px solid var(--border);padding:7px 8px 8px">
+        <button onClick="{{ toggleSystemMenu }}" title="System &amp; admin" style="display:flex;align-items:center;gap:10px;width:100%;height:32px;padding:0 9px;border:1px solid {{ sysBtnBorder }};border-radius:6px;cursor:pointer;background:{{ sysBtnBg }};color:var(--text-2);font-size:12px;font-weight:400;white-space:nowrap" style-hover="background:var(--hover)">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>
+          <sc-if value="{{ railExpanded }}"><span style="flex: 1; text-align: left; font-size: 11px"><span style="font-weight: normal;">Sentient Workspace</span></span></sc-if>
+          <sc-if value="{{ railExpanded }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2.2" stroke-linecap="round" style="flex:none"><path d="M6 15l6-6 6 6"></path></svg></sc-if>
+        </button>
+      </div>
+    </div>
+
+    <!-- HIERARCHY BLADE -->
+    <sc-if value="{{ bladeOpen }}" hint-placeholder-val="{{ true }}">
+    <div style="width:282px;flex:none;display:flex;flex-direction:column;background:var(--surface);border-right:1px solid var(--border);min-height:0">
+      <!-- blade header: compact filter + collapse -->
+      <div style="display:flex;align-items:center;gap:6px;padding:14px 11px 8px">
+        <div style="flex:1"></div>
+        <div style="position:relative">
+          <button onClick="{{ toggleFilter }}" title="Open filters" style="position:relative;display:flex;align-items:center;gap:5px;height:24px;padding:0 8px;background:{{ filterBtnBg }};border:1px solid {{ filterBtnBorder }};border-radius:5px;color:{{ filterBtnFg }};cursor:pointer;font-size:11px;font-weight:600" style-hover="background:var(--hover)">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"></path></svg>
+            Filters
+            <sc-if value="{{ hasFilters }}"><span style="min-width:14px;height:14px;padding:0 3px;border-radius:7px;background:var(--accent);color:var(--on-accent);font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center">{{ filterCount }}</span></sc-if>
+          </button>
+          <sc-if value="{{ filterOpen }}">
+          <div style="position:absolute;top:30px;right:0;width:246px;background:var(--surface);border:1px solid var(--border);border-radius:8px;box-shadow:var(--shadow);z-index:40;overflow:hidden">
+            <div style="display:flex;align-items:center;gap:6px;padding:9px 12px;border-bottom:1px solid var(--border)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-2)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"></path></svg><span style="font-size:11.5px;font-weight:600">Smart filter</span><span style="font-size:10px;color:var(--text-3);margin-left:auto">multi-select</span></div>
+            <div style="max-height:316px;overflow-y:auto;padding:11px 12px">
+              <sc-for list="{{ filterGroups }}" as="g" hint-placeholder-count="6">
+                <div style="margin-bottom:12px">
+                  <div style="font-size:9px;font-weight:700;letter-spacing:.06em;color:var(--text-3);margin-bottom:7px">{{ g.label }}</div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px">
+                    <sc-for list="{{ g.opts }}" as="o" hint-placeholder-count="4">
+                      <button onClick="{{ o.onToggle }}" style="height:24px;padding:0 11px;border-radius:13px;border:1px solid {{ o.chipBorder }};background:{{ o.chipBg }};color:{{ o.chipFg }};font-size:11.5px;font-weight:500;cursor:pointer;white-space:nowrap" style-hover="border-color:var(--border-strong)">{{ o.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:7px;padding:9px 12px;border-top:1px solid var(--border)">
+              <button onClick="{{ clearFilters }}" style="flex:1;height:28px;background:transparent;border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11.5px;font-weight:600;cursor:pointer" style-hover="background:var(--hover)">Clear</button>
+              <button onClick="{{ applyFilters }}" style="flex:1;height:28px;background:var(--accent);border:none;border-radius:6px;color:var(--on-accent);font-size:11.5px;font-weight:600;cursor:pointer">Apply</button>
+            </div>
+          </div>
+          </sc-if>
+        </div>
+        <button onClick="{{ toggleBlade }}" title="Collapse" style="width:24px;height:24px;flex:none;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);border-radius:5px;color:var(--text-2);cursor:pointer" style-hover="background:var(--hover)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+      </div>
+
+      <!-- active filter pills -->
+      <sc-if value="{{ hasFilters }}">
+      <div style="display:flex;flex-wrap:wrap;gap:5px;padding:0 11px 8px">
+        <sc-for list="{{ activePills }}" as="p" hint-placeholder-count="3">
+          <span onClick="{{ p.onRemove }}" style="display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;color:var(--text-2);background:var(--inset);border:1px solid var(--border);border-radius:5px;padding:2px 4px 2px 7px;cursor:pointer">{{ p.label }}<span style="color:var(--text-3);font-size:11px">✕</span></span>
+        </sc-for>
+        <span onClick="{{ clearFilters }}" style="font-size:10.5px;font-weight:600;color:var(--accent-fg);padding:2px 4px;cursor:pointer">Clear all</span>
+      </div>
+      </sc-if>
+
+      <!-- pinned (compact, collapsible) -->
+      <div style="border-top:1px solid var(--border-muted);border-bottom:1px solid var(--border-muted)">
+        <div onClick="{{ togglePinned }}" style="display:flex;align-items:center;gap:6px;padding:6px 11px;cursor:pointer" style-hover="background:var(--hover)">
+          <span style="display:flex;color:var(--text-3);transform:rotate({{ pinnedCaret }}deg);transition:transform .12s"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M9 6l6 6-6 6"></path></svg></span>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="var(--accent-fg)" stroke="none"><path d="M12 17l-5 3 1.9-5.7L4 10h6l2-6 2 6h6l-4.9 4.3L17 20z"></path></svg>
+          <span style="font-size:10px;font-weight:600;letter-spacing:.04em;color:var(--text-3);flex:1">PINNED</span>
+          <span style="font-size:9.5px;font-weight:600;color:var(--text-3);background:var(--inset);border:1px solid var(--border);border-radius:4px;padding:0 5px">{{ pinnedCount }}/8</span>
+        </div>
+        <sc-if value="{{ pinnedOpen }}">
+        <div style="padding:0 8px 6px;display:flex;flex-direction:column;gap:1px">
+          <sc-for list="{{ pinnedRows }}" as="p" hint-placeholder-count="3">
+            <div onClick="{{ p.onOpen }}" style="display:flex;align-items:center;gap:6px;height:22px;padding:0 6px;border-radius:4px;cursor:pointer;background:{{ p.bg }};box-shadow:{{ p.border }}" style-hover="background:var(--hover)">
+              <span style="flex:none;color:var(--text-3);display:flex"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg></span>
+              <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11.5px;color:{{ p.fg }};font-weight:{{ p.fw }}">{{ p.label }}</span>
+              <sc-if value="{{ p.viol }}"><span style="width:5px;height:5px;border-radius:50%;flex:none;background:var(--bad)"></span></sc-if>
+              <span onClick="{{ p.onUnpin }}" title="Unpin" style="flex:none;color:var(--text-3);font-size:10px;width:12px;text-align:center" style-hover="color:var(--text)">✕</span>
+            </div>
+          </sc-for>
+        </div>
+        </sc-if>
+      </div>
+
+      <!-- tree -->
+      <div style="flex:1;overflow-y:auto;min-height:0;padding:5px 7px 12px">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:3px 5px 5px">
+          <span style="font-size:9.5px;font-weight:700;letter-spacing:.05em;color:var(--text-3)">{{ treeStatus }}</span>
+          <span style="font-size:9px;color:var(--text-3)">backend-driven</span>
+        </div>
+        <sc-for list="{{ treeRows }}" as="node" hint-placeholder-count="16">
+          <div onClick="{{ node.onRow }}" title="{{ node.title }}" style="display:flex;align-items:center;gap:5px;height:{{ rowH }}px;padding:0 6px 0 {{ node.pad }}px;cursor:pointer;border-radius:5px;background:{{ node.rowBg }};box-shadow:{{ node.rowBorder }}" style-hover="background:var(--hover)">
+            <sc-if value="{{ node.hasChildren }}"><span onClick="{{ node.onCaret }}" style="display:flex;align-items:center;justify-content:center;width:13px;height:13px;flex:none;color:var(--text-3);transform:rotate({{ node.caret }}deg);transition:transform .1s"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"><path d="M9 6l6 6-6 6"></path></svg></span></sc-if>
+            <sc-if value="{{ node.leaf }}"><span style="width:13px;flex:none"></span></sc-if>
+            <span style="flex:none;color:{{ node.iconColor }};display:flex">{{ node.typeIcon }}</span>
+            <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;color:{{ node.fg }};font-weight:{{ node.fw }}">{{ node.label }}</span>
+            <sc-if value="{{ node.status }}"><span title="{{ node.statusTitle }}" style="width:6px;height:6px;border-radius:50%;flex:none;background:{{ node.statusColor }}"></span></sc-if>
+            <sc-if value="{{ node.pinned }}"><svg width="10" height="10" viewBox="0 0 24 24" fill="var(--accent-fg)" stroke="none" style="flex:none"><path d="M12 17l-5 3 1.9-5.7L4 10h6l2-6 2 6h6l-4.9 4.3L17 20z"></path></svg></sc-if>
+            <sc-if value="{{ node.lockedItem }}"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--locked)" stroke-width="2.2" style="flex:none"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg></sc-if>
+          </div>
+        </sc-for>
+        <sc-if value="{{ noResults }}"><div style="padding:18px 10px;text-align:center;font-size:11.5px;color:var(--text-3)">No nodes match the current filter.</div></sc-if>
+      </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ bladeClosed }}">
+    <div style="width:38px;flex:none;display:flex;flex-direction:column;align-items:center;padding-top:9px;background:var(--surface);border-right:1px solid var(--border)">
+      <button onClick="{{ toggleBlade }}" title="Expand hierarchy" style="width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:transparent;border:1px solid var(--border);border-radius:5px;color:var(--text-2);cursor:pointer" style-hover="background:var(--hover)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"></path></svg></button>
+    </div>
+    </sc-if>
+
+    <!-- AI ASSISTANT PANEL (opens from the right) -->
+    <sc-if value="{{ aiOpen }}">
+    <div style="width:300px;flex:none;order:2;display:flex;flex-direction:column;background:var(--surface);border-left:1px solid var(--border);min-height:0">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 13px;border-bottom:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:8px">
+          <svg width="16" height="16" viewBox="0 0 24 24"><defs><linearGradient id="askgradB" x1="2" y1="3" x2="22" y2="21" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f9508a"></stop><stop offset=".3" stop-color="#ff8a3d"></stop><stop offset=".55" stop-color="#22b364"></stop><stop offset=".78" stop-color="#2f81f7"></stop><stop offset="1" stop-color="#a371f7"></stop></linearGradient></defs><path fill="url(#askgradB)" d="M12 3l1.7 4.6L18 9l-4.3 1.4L12 15l-1.7-4.6L6 9l4.3-1.4z"></path><path fill="url(#askgradB)" d="M18.5 14l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"></path></svg>
+          <span style="font-size:12.5px;font-weight:600">Ask Sentient</span>
+          <span style="font-size:8.5px;font-weight:700;letter-spacing:.05em;color:var(--text-3);border:1px solid var(--border);border-radius:4px;padding:1px 5px">BETA</span>
+        </div>
+        <button onClick="{{ toggleAi }}" title="Close" style="width:21px;height:21px;display:flex;align-items:center;justify-content:center;background:transparent;border:none;color:var(--text-3);cursor:pointer;border-radius:5px" style-hover="background:var(--hover);color:var(--text)">✕</button>
+      </div>
+      <div style="padding:12px 13px;border-bottom:1px solid var(--border-muted);font-size:11.5px;color:var(--text-2);line-height:1.5">Ask about the selected object, tree path, or loaded content.</div>
+      <div style="flex:1;overflow-y:auto;padding:12px 13px;display:flex;flex-direction:column;gap:7px">
+        <div style="font-size:9px;font-weight:700;letter-spacing:.06em;color:var(--text-3);margin-bottom:1px">SUGGESTED PROMPTS</div>
+        <sc-for list="{{ aiPrompts }}" as="p" hint-placeholder-count="3">
+          <button style="display:flex;align-items:center;gap:8px;text-align:left;padding:9px 11px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text);font-size:12px;cursor:pointer" style-hover="background:var(--hover)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>{{ p }}</button>
+        </sc-for>
+      </div>
+      <div style="padding:11px 13px;border-top:1px solid var(--border)">
+        <div style="display:flex;align-items:center;gap:8px;height:36px;padding:0 11px;background:var(--inset);border:1px solid var(--border);border-radius:8px">
+          <span style="flex:1;font-size:12px;color:var(--text-3)">Ask about this selection…</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"></path></svg>
+        </div>
+        <div style="font-size:9px;color:var(--text-3);text-align:center;margin-top:7px">Concept — not connected in this mock</div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- CONTENT HOST -->
+    <div style="flex:1;min-width:320px;display:flex;flex-direction:column;background:var(--bg);min-height:0">
+      <div style="flex:1;overflow-y:auto;min-height:0;padding:16px 18px 18px;display:flex;flex-direction:column">
+        <!-- content host frame: loaded application area -->
+        <div style="flex:1;min-height:300px;position:relative;border:1px dashed var(--border);border-radius:8px;background:var(--inset);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:44px 24px">
+          <span style="position:absolute;top:12px;left:14px;font-size:9px;font-weight:700;letter-spacing:.08em;color:var(--text-3)">LOADED APPLICATION AREA</span>
+          <span style="position:absolute;top:12px;right:14px;display:inline-flex;align-items:center;gap:5px;font-size:9.5px;font-weight:600;color:var(--text-2);background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:2px 7px">routed by Navigator</span>
+          <div style="width:48px;height:48px;border-radius:10px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;color:var(--text-2);margin-bottom:16px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h8M12 17v4M2 8h20"></path></svg></div>
+          <div style="font-size:15px;font-weight:600;color:var(--text)">Loaded application content</div>
+          <div style="font-size:12px;color:var(--text-2);max-width:420px;margin-top:6px;line-height:1.55">The Navigator shell routes the selected object to its owning module, which renders here. Charts, records, dashboards and reports are provided by those applications — not by the Navigator.</div>
+          <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-top:18px">
+            <sc-for list="{{ hostTargets }}" as="t" hint-placeholder-count="4">
+              <span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--text-2);background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:5px 10px"><span style="width:5px;height:5px;border-radius:50%;background:var(--text-3)"></span>{{ t }}</span>
+            </sc-for>
+          </div>
+          <div style="font-size:10.5px;color:var(--text-3);margin-top:18px;display:inline-flex;align-items:center;gap:6px"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>Example: the SPC view for SMA02 | T11.2P would render in this region.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ChatGPT-style system & admin menu -->
+  <sc-if value="{{ systemMenuOpen }}">
+  <div onClick="{{ closeMenus }}" style="position:fixed;inset:0;z-index:55"></div>
+  <div style="position:fixed;left:10px;bottom:52px;width:212px;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);z-index:60;padding:5px">
+    <div style="font-size:9px;font-weight:600;letter-spacing:.06em;color:var(--text-3);padding:7px 8px 6px">SYSTEM &amp; ADMIN</div>
+    <sc-for list="{{ modulesBottom }}" as="m" hint-placeholder-count="4">
+      <button onClick="{{ m.onClick }}" title="{{ m.title }}" style="display:flex;align-items:center;gap:10px;width:100%;height:31px;padding:0 9px;border:none;border-radius:7px;background:transparent;color:{{ m.menuFg }};cursor:{{ m.cursor }};font-size:12px;font-weight:400;text-align:left" style-hover="background:var(--hover)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="{{ m.icon }}"></path></svg>
+        <span style="flex:1">{{ m.label }}</span>
+        <sc-if value="{{ m.locked }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--locked)" stroke-width="2.2" style="flex:none"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0110 0v4"></path></svg></sc-if>
+      </button>
+    </sc-for>
+    <div style="height:1px;background:var(--border-muted);margin:4px 6px"></div>
+    <button onClick="{{ doLogout }}" title="Sign out" style="display:flex;align-items:center;gap:10px;width:100%;height:31px;padding:0 9px;border:none;border-radius:7px;background:transparent;color:var(--text);cursor:pointer;font-size:12px;font-weight:400;text-align:left" style-hover="background:var(--hover)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"></path></svg>
+      <span style="flex:1">Sign out</span>
+    </button>
+  </div>
+  </sc-if>
+
+  <!-- Azure-style app launcher -->
+  <sc-if value="{{ launcherOpen }}">
+  <div onClick="{{ closeMenus }}" style="position:fixed;inset:0;z-index:55"></div>
+  <div style="position:fixed;top:48px;left:10px;width:392px;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:var(--shadow);z-index:60;padding:14px">
+    <div style="font-size:9px;font-weight:700;letter-spacing:.06em;color:var(--text-3);padding:1px 3px 12px">SENTIENT CLOUD · APPS</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:4px">
+      <sc-for list="{{ launcherApps }}" as="a" hint-placeholder-count="9">
+        <button title="{{ a.label }}" style="display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:8px;height:68px;padding:9px 4px;border:none;border-radius:8px;background:transparent;color:var(--text);cursor:pointer" style-hover="background:var(--hover)">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="{{ a.icon }}"></path></svg>
+          <span style="font-size:9.5px;font-weight:500;text-align:center;line-height:1.2">{{ a.label }}</span>
+        </button>
+      </sc-for>
+    </div>
+    <div style="font-size:9.5px;color:var(--text-3);text-align:center;padding-top:12px;line-height:1.4">Placeholder launcher — future routing to Sentient apps &amp; external tools</div>
+  </div>
+  </sc-if>
+
+  <!-- Scrap-dashboard-style filter drawer (now an attached popover in the blade header) -->
+  </sc-if>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;}}">
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    this.state = {
+      screen:'app', theme:'dark', scale:100, density:'compact',
+      railExpanded:true, bladeOpen:true, detailOpen:true,
+      active:'config', selected:'leaf_sma02',
+      query:'', filterOpen:false, appearanceOpen:false, profileOpen:false, systemMenuOpen:false, launcherOpen:false, aiOpen:false,
+      pinnedOpen:true,
+      activeFilters:[],
+      pinned:['leaf_sma02','param_tx'],
+      openSet:{blocks:true,fb:true,litho:true,ovl:true,rot:true,leaf_sma02:true,quality:false,liv:false}
+    };
+    this.modulesTop = [
+      {id:'home',label:'Home',icon:'M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10'},
+      {id:'config',label:'Configuration',icon:'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6'},
+      {id:'workflow',label:'Workflow',icon:'M6 4v10M18 8a3 3 0 100-6 3 3 0 000 6zM6 21a3 3 0 100-6 3 3 0 000 6zM18 8a9 9 0 01-9 9'},
+      {id:'collect',label:'Data Collection',icon:'M12 8c4.97 0 9-1.34 9-3s-4.03-3-9-3-9 1.34-9 3 4.03 3 9 3zM3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5'},
+      {id:'process',label:'Process Control',icon:'M22 12h-4l-3 9L9 3l-3 9H2'},
+      {id:'report',label:'Reporting',icon:'M3 3v18h18M7 15v-5M12 15V7M17 15v-9'},
+      {id:'explorer',label:'Data Explorer',icon:'M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35'},
+      {id:'ncmr',label:'NCMR',icon:'M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0zM12 9v4M12 17h.01',locked:true},
+      {id:'mrp',label:'MRP Tool',icon:'M21 16V8a2 2 0 00-1-1.7l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.7l7 4a2 2 0 002 0l7-4A2 2 0 0021 16zM3.3 7L12 12l8.7-5M12 22V12'},
+      {id:'support',label:'App Support',icon:'M12 22a10 10 0 100-20 10 10 0 000 20zM9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01'}
+    ];
+    this.modulesBottom = [
+      {id:'security',label:'Security',icon:'M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6z'},
+      {id:'admin',label:'Admin',icon:'M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2zM12 11v5M9.5 13.5h5'},
+      {id:'settings',label:'Settings',icon:'M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.65 1.65 0 00.33 1.82M4.6 9a1.65 1.65 0 01-.33-1.82'},
+      {id:'help',label:'Help',icon:'M12 22a10 10 0 100-20 10 10 0 000 20zM9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01'}
+    ];
+    this.tree = [
+      {id:'blocks',label:'Blocks',type:'block',tags:[],children:[
+        {id:'fb',label:'Farmers Branch',type:'site',tags:['Farmers Branch'],children:[
+          {id:'quality',label:'Quality',type:'module',tags:['Quality'],children:[
+            {id:'iqa',label:'IQA',type:'collection',tags:['Quality','IQA']},
+            {id:'scrap',label:'Scrap',type:'collection',tags:['Quality','Scrap']}
+          ]},
+          {id:'litho',label:'Lithography',type:'area',tags:['Lithography'],children:[
+            {id:'litho_cd',label:'LITHO_CD',type:'equip',tags:['Lithography']},
+            {id:'ovl',label:'LITHO_OVL',type:'equip',tags:['Lithography'],children:[
+              {id:'rot',label:'ROT',type:'param',tags:['Lithography'],viol:true,children:[
+                {id:'leaf_sma02',label:'SMA02 | T11.2P',type:'leaf',tags:['Lithography'],viol:true,children:[
+                  {id:'spc02',label:'SPC Charts',type:'chart',tags:['Lithography']},
+                  {id:'rec02',label:'Records',type:'records',tags:['Lithography']},
+                  {id:'viol02',label:'Violations',type:'viol',tags:['Lithography'],viol:true}
+                ]},
+                {id:'leaf_sma01',label:'SMA01 | T11.7P',type:'leaf',tags:['Lithography']}
+              ]},
+              {id:'param_tx',label:'TX',type:'param',tags:['Lithography']}
+            ]}
+          ]},
+          {id:'lam',label:'Lamination',type:'area',tags:['Lamination']}
+        ]},
+        {id:'liv',label:'Livermore',type:'site',tags:['Livermore'],children:[
+          {id:'pc',label:'Process Control',type:'module',tags:[],children:[
+            {id:'spcparams',label:'SPC Parameters',type:'param',tags:[]}
+          ]},
+          {id:'reports',label:'Reports',type:'report',tags:[]}
+        ]}
+      ]}
+    ];
+    this.launcherApps = [
+      {label:'Sentient Navigator',icon:'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z'},
+      {label:'Reporting',icon:'M3 3v18h18M7 15v-5M12 15V7M17 15v-9'},
+      {label:'Data Explorer',icon:'M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35'},
+      {label:'Workflow',icon:'M6 4v10M18 8a3 3 0 100-6 3 3 0 000 6zM6 21a3 3 0 100-6 3 3 0 000 6zM18 8a9 9 0 01-9 9'},
+      {label:'Process Control',icon:'M22 12h-4l-3 9L9 3l-3 9H2'},
+      {label:'Quality',icon:'M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6zM9 12l2 2 4-4'},
+      {label:'Admin',icon:'M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2zM12 11v5M9.5 13.5h5'},
+      {label:'App Support',icon:'M12 22a10 10 0 100-20 10 10 0 000 20zM9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01'},
+      {label:'GitHub',icon:'M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 00-.9-2.6c3-.3 6.2-1.5 6.2-6.7a5.2 5.2 0 00-1.4-3.6 4.8 4.8 0 00-.1-3.6s-1.2-.3-3.9 1.4a13.4 13.4 0 00-7 0C6.2 1.7 5 2 5 2a4.8 4.8 0 00-.1 3.6 5.2 5.2 0 00-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7a3.4 3.4 0 00-.9 2.6V22'},
+      {label:'Azure DevOps',icon:'M6 3v12a3 3 0 003 3h6M18 21V9a3 3 0 00-3-3H9'},
+      {label:'Documentation',icon:'M4 19.5A2.5 2.5 0 016.5 17H20M4 19.5A2.5 2.5 0 006.5 22H20V2H6.5A2.5 2.5 0 004 4.5z'}
+    ];
+    this.launcherApps = [
+      {label:'Sentient Navigator',icon:'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z'},
+      {label:'Reporting',icon:'M3 3v18h18M7 15v-5M12 15V7M17 15v-9'},
+      {label:'Data Explorer',icon:'M11 19a8 8 0 100-16 8 8 0 000 16zM21 21l-4.35-4.35'},
+      {label:'Workflow',icon:'M6 4v10M18 8a3 3 0 100-6 3 3 0 000 6zM6 21a3 3 0 100-6 3 3 0 000 6zM18 8a9 9 0 01-9 9'},
+      {label:'Process Control',icon:'M22 12h-4l-3 9L9 3l-3 9H2'},
+      {label:'Quality',icon:'M12 2l8 4v6c0 5-3.4 8.4-8 10-4.6-1.6-8-5-8-10V6zM9 12l2 2 4-4'},
+      {label:'Admin',icon:'M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2zM12 11v5M9.5 13.5h5'},
+      {label:'App Support',icon:'M12 22a10 10 0 100-20 10 10 0 000 20zM9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01'},
+      {label:'GitHub',icon:'M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 00-.9-2.6c3-.3 6.2-1.5 6.2-6.7a5.2 5.2 0 00-1.5-3.6 4.9 4.9 0 00-.1-3.6s-1.2-.4-3.9 1.5a13.4 13.4 0 00-7 0C6.1.7 4.9 1.1 4.9 1.1a4.9 4.9 0 00-.1 3.6A5.2 5.2 0 003.3 8.3c0 5.2 3.2 6.4 6.2 6.7a3.4 3.4 0 00-.9 2.6V21'},
+      {label:'Azure DevOps',icon:'M21 16V8a2 2 0 00-1-1.7l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.7l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z'},
+      {label:'Documentation',icon:'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M9 13h6M9 17h6'}
+    ];
+    this.filterGroupsRaw = [
+      {label:'BLOCK / SITE',opts:[{label:'Farmers Branch',kind:'tag'},{label:'Livermore',kind:'tag'},{label:'Plant 1',kind:'tag'},{label:'Plant 2',kind:'tag'}]},
+      {label:'MODULE',opts:[{label:'Quality',kind:'tag'},{label:'Process Control',kind:'tag'},{label:'Reporting',kind:'tag'}]},
+      {label:'COLLECTION',opts:[{label:'IQA',kind:'tag'},{label:'Scrap',kind:'tag'}]},
+      {label:'AREA',opts:[{label:'Lithography',kind:'tag'},{label:'Lamination',kind:'tag'}]},
+      {label:'OBJECT TYPE',opts:[{label:'Parameter',kind:'type',val:'param'},{label:'Equipment',kind:'type',val:'equip'},{label:'Chart',kind:'type',val:'chart'},{label:'Records',kind:'type',val:'records'},{label:'Report',kind:'type',val:'report'}]},
+      {label:'STATUS',opts:[{label:'Has violations',kind:'viol'},{label:'Pinned',kind:'pinned'}]}
+    ];
+    this.records = [
+      {st:'PASS',ts:'6/16 17:45',id:'W299012.2',xbar:'5.65',sig:'2.10',user:'A. Brasil',prod:'159-500964A'},
+      {st:'PASS',ts:'6/16 17:45',id:'W299406.2',xbar:'2.17',sig:'1.84',user:'K. Kea',prod:'159-440073A'},
+      {st:'VIOLATION',ts:'6/16 17:15',id:'W298948.2',xbar:'15.18',sig:'4.02',user:'P. Tran',prod:'159-500964B'},
+      {st:'PASS',ts:'6/16 17:15',id:'W298765.5',xbar:'-1.18',sig:'1.61',user:'P. Tran',prod:'159-500743A'},
+      {st:'VIOLATION',ts:'6/16 17:15',id:'W298653.2',xbar:'-22.65',sig:'5.31',user:'P. Tran',prod:'159-500670B'},
+      {st:'PASS',ts:'6/16 16:58',id:'W298540.1',xbar:'1.65',sig:'1.42',user:'A. Brasil',prod:'159-500964A'}
+    ];
+    this.metricsRaw = [
+      {label:'Cp',value:'1.07',tone:'good'},{label:'Cpk',value:'0.90',tone:'warn'},
+      {label:'Pp',value:'0.90',tone:'warn'},{label:'Ppk',value:'0.76',tone:'bad'},
+      {label:'Desir.',value:'0.40',tone:'bad'},{label:'Viol.',value:'29',tone:'bad'}
+    ];
+    this.actionsRaw = [
+      {label:'View Data',icon:'table'},{label:'Open Chart',icon:'chart'},
+      {label:'View Records',icon:'list'},{label:'Configure Limits',icon:'sliders'},
+      {label:'Archive',icon:'archive',locked:true}
+    ];
+    this.activityRaw = [
+      {text:'Violation flagged on W298653.2',when:'2 hours ago',dot:'var(--bad)'},
+      {text:'Control limits auto-reset (3σ)',when:'Aug 28, 2025',dot:'var(--accent)'},
+      {text:'Owner changed to R. Almeida',when:'Aug 12, 2025',dot:'var(--text-3)'}
+    ];
+    this.spcData = this._genSpc();
+  }
+  _genSpc(){let s=20260618;const rnd=()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};const a=[];for(let i=0;i<46;i++){let v=(rnd()+rnd()+rnd()-1.5)*9;if(rnd()<0.09)v-=rnd()*16;a.push(Math.max(-29,Math.min(20,v)));}return a;}
+  _toggle(id){this.setState(s=>{const o={...s.openSet};o[id]=!o[id];return {openSet:o};});}
+  _typeIcon(type){
+    const map={
+      block:'M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z',
+      site:'M3 21h18M5 21V7l7-4 7 4v14M9 9h.01M9 13h.01M15 9h.01M15 13h.01',
+      module:'M21 16V8a2 2 0 00-1-1.7l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.7l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z',
+      collection:'M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z',
+      area:'M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z',
+      equip:'M9 3v2M15 3v2M9 19v2M15 19v2M3 9h2M3 15h2M19 9h2M19 15h2M7 7h10v10H7z',
+      param:'M22 12h-4l-3 9L9 3l-3 9H2',
+      leaf:'M20 6L9 17l-5-5',
+      chart:'M3 3v18h18M7 14l4-4 3 3 5-6',
+      records:'M3 3h18v18H3zM3 9h18M9 3v18',
+      viol:'M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0zM12 9v4M12 17h.01',
+      report:'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6'
+    };
+    return React.createElement('svg',{width:13,height:13,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:1.8,strokeLinecap:'round',strokeLinejoin:'round'},React.createElement('path',{d:map[type]||map.leaf}));
+  }
+  _actIcon(name){const map={table:'M3 3h18v18H3zM3 9h18M3 15h18M9 3v18',chart:'M3 3v18h18M7 14l4-4 3 3 5-6',list:'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01',sliders:'M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6',archive:'M21 8v13H3V8M1 3h22v5H1zM10 12h4'};return React.createElement('svg',{width:13,height:13,viewBox:'0 0 24 24',fill:'none',stroke:'currentColor',strokeWidth:1.8,strokeLinecap:'round',strokeLinejoin:'round'},React.createElement('path',{d:map[name]||map.list}));}
+
+  chartColors(){const d=this.state.theme==='dark';return {grid:d?'#1e1e1e':'#eaeef2',text:d?'#ffffff':'#818b98',line:d?'#6a6a6a':'#8c959f',point:d?'#ffffff':'#0969da',dot:d?'#000000':'#ffffff',bad:d?'#ffffff':'#cf222e',ucl:d?'#3a3a3a':'#d0d7de',center:d?'#8f8f8f':'#1a7f37',band:d?'rgba(255,255,255,.05)':'rgba(9,105,218,.05)',bar:d?'#c8c8c8':'#0969da'};}
+  spcEl(){const h=React.createElement,c=this.chartColors(),d=this.spcData,n=d.length;const W=620,H=230,pl=36,pr=10,pt=12,pb=20,pw=W-pl-pr,ph=H-pt-pb,ymin=-30,ymax=30;const Y=v=>pt+(ymax-v)/(ymax-ymin)*ph,X=i=>pl+(i/(n-1))*pw;const ucl=15.3,lcl=-15.3,usl=20,lsl=-20,e=[];e.push(h('rect',{key:'bd',x:pl,y:Y(ucl),width:pw,height:Y(lcl)-Y(ucl),fill:c.band}));[20,10,0,-10,-20].forEach((g,i)=>{e.push(h('line',{key:'g'+i,x1:pl,x2:pl+pw,y1:Y(g),y2:Y(g),stroke:c.grid,strokeWidth:1}));e.push(h('text',{key:'t'+i,x:pl-6,y:Y(g)+3,textAnchor:'end',fontSize:8.5,fill:c.text},g));});e.push(h('line',{key:'us',x1:pl,x2:pl+pw,y1:Y(usl),y2:Y(usl),stroke:c.bad,strokeWidth:1.4}));e.push(h('line',{key:'ls',x1:pl,x2:pl+pw,y1:Y(lsl),y2:Y(lsl),stroke:c.bad,strokeWidth:1.4}));e.push(h('line',{key:'uc',x1:pl,x2:pl+pw,y1:Y(ucl),y2:Y(ucl),stroke:c.ucl,strokeDasharray:'4 3',strokeWidth:1}));e.push(h('line',{key:'lc',x1:pl,x2:pl+pw,y1:Y(lcl),y2:Y(lcl),stroke:c.ucl,strokeDasharray:'4 3',strokeWidth:1}));e.push(h('line',{key:'cl',x1:pl,x2:pl+pw,y1:Y(0),y2:Y(0),stroke:c.center,strokeWidth:1.2}));e.push(h('path',{key:'ln',d:d.map((v,i)=>(i?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1)).join(' '),fill:'none',stroke:c.line,strokeWidth:1.1}));d.forEach((v,i)=>{const bad=v<lcl||v>ucl;e.push(h('circle',{key:'p'+i,cx:X(i),cy:Y(v),r:bad?3:2.2,fill:bad?c.bad:c.dot,stroke:bad?c.bad:c.point,strokeWidth:1.3}));});return h('svg',{viewBox:'0 0 '+W+' '+H,style:{width:'100%',height:'100%',display:'block'},preserveAspectRatio:'xMidYMid meet'},e);}
+  histEl(){const h=React.createElement,c=this.chartColors();const bins=[1,1,2,4,7,11,17,24,31,33,30,23,16,10,5,3,2,1];const W=230,H=230,pl=6,pr=6,pt=10,pb=22,pw=W-pl-pr,ph=H-pt-pb,max=Math.max(...bins),bw=pw/bins.length,e=[];bins.forEach((b,i)=>{const bh=b/max*ph;e.push(h('rect',{key:'b'+i,x:pl+i*bw+1,y:pt+ph-bh,width:bw-2,height:bh,fill:c.bar,opacity:.82}));});const ux=pl+15.0*bw,lx=pl+1.7*bw;e.push(h('line',{key:'u',x1:ux,x2:ux,y1:pt-2,y2:pt+ph,stroke:c.bad,strokeWidth:1.6}));e.push(h('line',{key:'l',x1:lx,x2:lx,y1:pt-2,y2:pt+ph,stroke:c.bad,strokeWidth:1.6}));e.push(h('text',{key:'ul',x:ux,y:H-8,textAnchor:'middle',fontSize:8.5,fontWeight:600,fill:c.bad},'USL'));e.push(h('text',{key:'ll',x:lx,y:H-8,textAnchor:'middle',fontSize:8.5,fontWeight:600,fill:c.bad},'LSL'));return h('svg',{viewBox:'0 0 '+W+' '+H,style:{width:'100%',height:'100%',display:'block'},preserveAspectRatio:'xMidYMid meet'},e);}
+
+  // filter helpers
+  _filterKey(o){return o.kind+':'+(o.val||o.label);}
+  _isActive(o){return this.state.activeFilters.some(f=>f.kind===o.kind&&(f.val||f.label)===(o.val||o.label));}
+  _toggleFilter(o){this.setState(s=>{const k=this._filterKey(o);const ex=s.activeFilters.some(f=>(f.kind+':'+(f.val||f.label))===k);return {activeFilters: ex?s.activeFilters.filter(f=>(f.kind+':'+(f.val||f.label))!==k):[...s.activeFilters,{kind:o.kind,label:o.label,val:o.val}]};});}
+  _nodeSelfMatch(nd){const fs=this.state.activeFilters;if(!fs.length)return true;return fs.some(f=>{if(f.kind==='tag')return (nd.tags||[]).includes(f.label);if(f.kind==='type')return nd.type===f.val;if(f.kind==='viol')return !!nd.viol;if(f.kind==='locked')return !!nd.locked;if(f.kind==='active')return !nd.locked;if(f.kind==='pinned')return this.state.pinned.includes(nd.id);return false;});}
+
+  _flattenNormal(nodes,depth,out){for(const nd of nodes){const open=!!this.state.openSet[nd.id];const has=!!(nd.children&&nd.children.length);out.push({nd,depth,open,has});if(has&&open)this._flattenNormal(nd.children,depth+1,out);}}
+  _collectMatches(nodes,q,fActive,keepSet){let any=false;for(const nd of nodes){const childKeep=nd.children?this._collectMatches(nd.children,q,fActive,keepSet):false;const qMatch=q?nd.label.toLowerCase().includes(q):true;const fMatch=fActive?this._nodeSelfMatch(nd):true;const self=qMatch&&fMatch;if(self||childKeep){keepSet.add(nd.id);any=true;}}return any;}
+  _flattenFiltered(nodes,depth,keepSet,out){for(const nd of nodes){if(!keepSet.has(nd.id))continue;const has=!!(nd.children&&nd.children.length&&nd.children.some(c=>keepSet.has(c.id)));out.push({nd,depth,open:true,has});if(has)this._flattenFiltered(nd.children,depth+1,keepSet,out);}}
+
+  renderVals(){
+    const S=this.state, h=React.createElement;
+    const toneCol={good:'var(--good)',warn:'var(--warn)',bad:'var(--bad)'};
+    const rowH = S.density==='compact'?24:30;
+    const z = S.scale/100;
+    const segBg=(on)=>on?'var(--surface)':'transparent', segFg=(on)=>on?'var(--accent-fg)':'var(--text-2)';
+    // dark theme: selected uses surface; need contrasting selected button bg in segmented -> use accent-soft
+    const segOnBg='var(--sel)';
+
+    const close=()=>{ if(S.appearanceOpen||S.profileOpen||S.filterOpen||S.systemMenuOpen||S.launcherOpen) this.setState({appearanceOpen:false,profileOpen:false,filterOpen:false,systemMenuOpen:false,launcherOpen:false}); };
+
+    // modules
+    const mkMod=(m)=>{const active=m.id===S.active, locked=!!m.locked;return {...m,title:locked?(m.label+' — restricted'):m.label,onClick:locked?(()=>{}):(()=>this.setState({active:m.id,appearanceOpen:false,profileOpen:false,systemMenuOpen:false})),bar:active?'var(--accent)':'transparent',bg:active?'var(--sel)':'transparent',fg:locked?'var(--locked)':active?'var(--text)':'var(--text-2)',menuFg:locked?'var(--locked)':'var(--text)',fw:'400',cursor:locked?'not-allowed':'pointer'};};
+    const modulesTop=this.modulesTop.map(mkMod), modulesBottom=this.modulesBottom.map(mkMod);
+
+    // tree
+    const q=S.query.trim().toLowerCase();
+    const fActive=S.activeFilters.length>0;
+    const statusCol={pass:'var(--good)',violation:'var(--bad)'};
+    let flat;
+    if(q||fActive){const keep=new Set();this._collectMatches(this.tree,q,fActive,keep);flat=[];this._flattenFiltered(this.tree,0,keep,flat);}
+    else {flat=[];this._flattenNormal(this.tree,0,flat);}
+    const treeRows=flat.map(({nd,depth,open,has})=>{const sel=nd.id===S.selected,pinned=S.pinned.includes(nd.id);
+      return {id:nd.id,label:nd.label,title:nd.label,pad:8+depth*13,hasChildren:has,leaf:!has,caret:open?90:0,
+        typeIcon:this._typeIcon(nd.type),iconColor:sel?'var(--accent-fg)':'var(--text-2)',
+        status:!!nd.viol,statusColor:'var(--bad)',statusTitle:'Has violations',pinned,lockedItem:!!nd.locked,
+        rowBg:sel?'var(--sel)':'transparent',rowBorder:sel?'inset 2px 0 0 var(--sel-border)':'none',
+        fg:sel?'var(--text)':'var(--text)',fw:sel?'600':'400',
+        onRow:()=>{if(has)this._toggle(nd.id);this.setState({selected:nd.id});},
+        onCaret:(e)=>{if(e&&e.stopPropagation)e.stopPropagation();this._toggle(nd.id);}};
+    });
+
+    // filter groups
+    const filterGroups=this.filterGroupsRaw.map(g=>({label:g.label,opts:g.opts.map(o=>{const on=this._isActive(o);return {label:o.label,on,chipBg:on?'var(--accent)':'transparent',chipBorder:on?'var(--accent)':'var(--border)',chipFg:on?'var(--on-accent)':'var(--text)',onToggle:(e)=>{if(e&&e.stopPropagation)e.stopPropagation();this._toggleFilter(o);}};})}));
+    const activePills=S.activeFilters.map(f=>({label:f.label,onRemove:()=>this._toggleFilter(f)}));
+
+    // pinned rows
+    const idLabel={leaf_sma02:'SMA02 | T11.2P',param_tx:'TX · LITHO_OVL',leaf_sma01:'SMA01 | T11.7P'};
+    const idViol={leaf_sma02:true};
+    const pinnedRows=S.pinned.map(id=>({id,label:idLabel[id]||id,viol:!!idViol[id],fg:id===S.selected?'var(--accent-fg)':'var(--text)',fw:id===S.selected?'600':'400',border:id===S.selected?'inset 2px 0 0 var(--sel-border)':'none',bg:id===S.selected?'var(--sel)':'transparent',
+      onOpen:()=>this.setState({selected:id}),onUnpin:(e)=>{if(e&&e.stopPropagation)e.stopPropagation();this.setState(st=>({pinned:st.pinned.filter(x=>x!==id)}));}}));
+
+    const crumbsRaw=['Farmers Branch','Lithography','LITHO_OVL','ROT','SMA02 | T11.2P'];
+    const crumbs=crumbsRaw.map((label,i)=>({label,sep:i<crumbsRaw.length-1,fw:i===crumbsRaw.length-1?'600':'400',color:i===crumbsRaw.length-1?'var(--text)':'var(--text-2)'}));
+
+    const metrics=this.metricsRaw.map(k=>({...k,color:toneCol[k.tone]}));
+    const records=this.records.map(r=>({...r,stColor:r.st==='VIOLATION'?'var(--bad)':'var(--good)'}));
+    const actions=this.actionsRaw.map(a=>({label:a.label,icon:this._actIcon(a.icon),locked:!!a.locked,title:a.locked?(a.label+' — requires Admin'):a.label,bg:a.locked?'var(--inset)':'var(--surface)',fg:a.locked?'var(--text-3)':'var(--text)',cursor:a.locked?'not-allowed':'pointer'}));
+
+    const themeOpts=[{k:'light',label:'Light'},{k:'dark',label:'Dark'}].map(o=>({label:o.label,onClick:(e)=>{if(e&&e.stopPropagation)e.stopPropagation();this.setState({theme:o.k});},bg:S.theme===o.k?segOnBg:'transparent',fg:S.theme===o.k?'var(--accent-fg)':'var(--text-2)'}));
+    const scaleOpts=[100,125,150].map(v=>({label:v+'%',onClick:(e)=>{if(e&&e.stopPropagation)e.stopPropagation();this.setState({scale:v});},bg:S.scale===v?segOnBg:'transparent',fg:S.scale===v?'var(--accent-fg)':'var(--text-2)'}));
+    const densityOpts=[{k:'compact',label:'Compact'},{k:'comfortable',label:'Comfortable'}].map(o=>({label:o.label,onClick:(e)=>{if(e&&e.stopPropagation)e.stopPropagation();this.setState({density:o.k});},bg:S.density===o.k?segOnBg:'transparent',fg:S.density===o.k?'var(--accent-fg)':'var(--text-2)'}));
+
+    return {
+      theme:S.theme, zoom:z, appW:'calc(100vw / '+z+')', appH:'calc(100vh / '+z+')',
+      isLogin:S.screen==='login', isApp:S.screen==='app',
+      doLogin:()=>this.setState({screen:'app'}), doLogout:()=>this.setState({screen:'login',profileOpen:false}),
+      railExpanded:S.railExpanded, railW:S.railExpanded?188:52, toggleRail:()=>this.setState(s=>({railExpanded:!s.railExpanded})),
+      bladeOpen:S.bladeOpen, bladeClosed:!S.bladeOpen, toggleBlade:()=>this.setState(s=>({bladeOpen:!s.bladeOpen})),
+      detailOpen:S.detailOpen, toggleDetail:()=>this.setState(s=>({detailOpen:!s.detailOpen})), detailBtnBg:S.detailOpen?'var(--sel)':'transparent',
+      modulesTop, modulesBottom,
+      query:S.query, onQuery:(e)=>this.setState({query:e.target.value}),
+      filterOpen:S.filterOpen, toggleFilter:(e)=>{if(e&&e.stopPropagation)e.stopPropagation();this.setState(s=>({filterOpen:!s.filterOpen,appearanceOpen:false,profileOpen:false,systemMenuOpen:false,launcherOpen:false}));},
+      systemMenuOpen:S.systemMenuOpen, toggleSystemMenu:(e)=>{if(e&&e.stopPropagation)e.stopPropagation();this.setState(s=>({systemMenuOpen:!s.systemMenuOpen,appearanceOpen:false,profileOpen:false,filterOpen:false,launcherOpen:false}));},
+      sysBtnBg:S.systemMenuOpen?'var(--hover)':'transparent', sysBtnBorder:S.systemMenuOpen?'var(--sel-border)':'var(--border)',
+      launcherApps:this.launcherApps, launcherOpen:S.launcherOpen, toggleLauncher:(e)=>{if(e&&e.stopPropagation)e.stopPropagation();this.setState(s=>({launcherOpen:!s.launcherOpen,appearanceOpen:false,profileOpen:false,filterOpen:false,systemMenuOpen:false}));},
+      launcherBg:S.launcherOpen?'var(--hover)':'transparent', launcherBorder:S.launcherOpen?'var(--sel-border)':'var(--border)',
+      aiOpen:S.aiOpen, toggleAi:(e)=>{if(e&&e.stopPropagation)e.stopPropagation();this.setState(s=>({aiOpen:!s.aiOpen,launcherOpen:false,appearanceOpen:false,profileOpen:false,filterOpen:false,systemMenuOpen:false}));},
+      aiBtnBg:S.aiOpen?'var(--sel)':'transparent', aiBtnBorder:S.aiOpen?'var(--sel-border)':'var(--border)', aiBtnFg:S.aiOpen?'var(--accent-fg)':'var(--text-2)',
+      aiPrompts:['Summarize this object','Show related records','Explain current alerts'],
+      filterGroups, applyFilters:(e)=>{if(e&&e.stopPropagation)e.stopPropagation();this.setState({filterOpen:false});}, clearFilters:(e)=>{if(e&&e.stopPropagation)e.stopPropagation();this.setState({activeFilters:[]});},
+      hasFilters:fActive, filterCount:S.activeFilters.length, activePills,
+      filterBtnBg:fActive?'var(--sel)':'var(--inset)', filterBtnBorder:fActive?'var(--sel-border)':'var(--border)', filterBtnFg:fActive?'var(--accent-fg)':'var(--text-2)',
+      pinnedOpen:S.pinnedOpen, pinnedCaret:S.pinnedOpen?90:0, togglePinned:()=>this.setState(s=>({pinnedOpen:!s.pinnedOpen})), pinnedCount:S.pinned.length, pinnedRows,
+      rowH, treeRows, treeStatus:(q||fActive)?'FILTERED RESULTS':'OBJECT TREE', noResults:(q||fActive)&&treeRows.length===0,
+      crumbs, hostTargets:['SPC Charts','Histogram','Records','Reports'], actions, activity:this.activityRaw,
+      appearanceOpen:S.appearanceOpen, apprBg:S.appearanceOpen?'var(--hover)':'transparent', toggleAppearance:(e)=>{if(e&&e.stopPropagation)e.stopPropagation();this.setState(s=>({appearanceOpen:!s.appearanceOpen,profileOpen:false,filterOpen:false,systemMenuOpen:false,launcherOpen:false}));},
+      profileOpen:S.profileOpen, toggleProfile:(e)=>{if(e&&e.stopPropagation)e.stopPropagation();this.setState(s=>({profileOpen:!s.profileOpen,appearanceOpen:false,filterOpen:false,systemMenuOpen:false,launcherOpen:false}));},
+      themeOpts, scaleOpts, densityOpts, closeMenus:close
+    };
+  }
+}
+</script>
+</body>
+</html>
