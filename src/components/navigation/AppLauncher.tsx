@@ -14,6 +14,9 @@ const LAUNCHER_APPS: Array<{ label: string; iconKey: string }> = [
   { label: 'Quality', iconKey: 'security' },
   { label: 'Admin', iconKey: 'admin' },
   { label: 'App Support', iconKey: 'appSupport' },
+  { label: 'GitHub', iconKey: 'github' },
+  { label: 'Azure DevOps', iconKey: 'azureDevops' },
+  { label: 'Documentation', iconKey: 'documentation' },
 ];
 
 export function AppLauncher() {

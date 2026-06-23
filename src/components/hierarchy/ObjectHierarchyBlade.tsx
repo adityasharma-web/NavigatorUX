@@ -11,7 +11,7 @@ import '../../styles/hierarchy.css';
  * backend-driven tree. Collapses to a thin strip to reclaim workspace.
  */
 export function ObjectHierarchyBlade() {
-  const { shell, filters, tree } = useNavigator();
+  const { shell, filters } = useNavigator();
 
   if (!shell.bladeOpen) {
     return (
@@ -26,11 +26,8 @@ export function ObjectHierarchyBlade() {
   return (
     <div className="blade" aria-label="Object hierarchy">
       <div className="blade__header">
-        <span className="blade__title">Object hierarchy</span>
+        <span className="blade__spacer" />
         <SmartTreeFilterButton />
-        <IconButton small title="Refresh hierarchy" onClick={tree.refresh}>
-          <Icon name="refresh" size={12} strokeWidth={2} />
-        </IconButton>
         <IconButton small title="Collapse" onClick={shell.toggleBlade}>
           <Icon name="chevronLeft" size={12} strokeWidth={2.4} />
         </IconButton>

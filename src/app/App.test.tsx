@@ -23,20 +23,25 @@ describe('App (integration)', () => {
     expect(within(rail).getByTitle(/NCMR — restricted/i)).toBeInTheDocument();
 
     // hierarchy blade + async tree
-    expect(screen.getByText('Object hierarchy')).toBeInTheDocument();
+    expect(screen.getByText('OBJECT TREE')).toBeInTheDocument();
     await waitFor(() => expect(screen.getByText('Blocks')).toBeInTheDocument());
 
-    // default selection resolves across tree, pinned list and details title
+    // content host shows the generic loaded-content placeholder
+    expect(screen.getByText('Loaded application content')).toBeInTheDocument();
+
+    // default selection resolves across tree + pinned list
     await waitFor(() => expect(screen.getAllByText('SMA02 | T11.2P').length).toBeGreaterThan(0));
-    // details blade shows the selected object's metadata
-    expect(screen.getByText('Technology')).toBeInTheDocument();
-    expect(screen.getByText('Content Host')).toBeInTheDocument();
+
+    // details blade is closed by default; opens from the header toggle
+    expect(screen.queryByText('Technology')).not.toBeInTheDocument();
+    fireEvent.click(screen.getByTitle('Details & actions panel'));
+    await waitFor(() => expect(screen.getByText('Technology')).toBeInTheDocument());
   });
 
   it('toggles theme via the document attribute', async () => {
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: /continue with sso/i }));
-    await waitFor(() => expect(screen.getByText('Object hierarchy')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText('OBJECT TREE')).toBeInTheDocument());
 
     const before = document.documentElement.getAttribute('data-theme');
     expect(['light', 'dark']).toContain(before);

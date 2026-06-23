@@ -47,19 +47,21 @@ Requires Node 18+ (developed on Node 22).
   Admin / Settings / Help) menu. Visibility & locked state come from mock user
   permissions (NCMR renders locked).
 - **Object hierarchy blade** — backend-driven recursive tree (expand/collapse,
-  selection, status dots, locked & pinned indicators), a refresh control, and the
-  collapse-to-strip behavior.
-- **Compact smart filter** — grouped, multi-select chip popover (Site/Block,
-  Module/Area, Object Type, Status…) with active pills + Clear/Apply. Filters the
-  tree only and re-queries the API.
+  selection, status dots, locked & pinned indicators), `Filters` + collapse-to-strip
+  controls. Re-queries the API on module/filter/pin changes.
+- **Compact smart filter** — grouped, multi-select chip popover (Block/Site,
+  Module, Collection, Area, Object Type, Status) with active pills + Clear/Apply.
+  Filters the tree only and re-queries the API.
 - **Pinned objects** — user-profile-scoped, collapsible, pin/unpin (also via
   right-click on a tree node), opens directly.
-- **Content host** — breadcrumb + a placeholder for the *would-be* loaded module.
-  The Navigator routes content; it never owns charts/tables/dashboards.
-- **Details/actions blade** — metadata, access/permission context, capability
-  metrics, permission-aware actions (Archive is locked for this user), recent
-  activity. Closable.
-- **AI button + panel** — placeholder “Navigator AI” drawer with suggested prompts;
+- **Content host** — full-width generic placeholder for the *would-be* loaded
+  module (the selected object + route appear in the example line). The Navigator
+  routes content; it never owns charts/tables/dashboards.
+- **Details/actions blade** — opens from the header panel toggle; shows the object
+  path, metadata, access/permission context, capability metrics, permission-aware
+  actions (Archive is locked for this user) and recent activity. Closed by default
+  so the content host is full-width (matches the approved screenshots).
+- **AI button + panel** — placeholder “Ask Sentient” drawer with suggested prompts;
   no LLM calls. Clear extension point for future LLM/MCP/tools work.
 - **Theme / scale / density** — Light/Dark, 100/125/150%, Compact/Comfortable.
   Persisted to `localStorage`.
@@ -158,8 +160,8 @@ locked/disabled, green/red/yellow = healthy/violation/warning only.**
 - Mock data & simulated latency only — no real backend, DB, or auth.
 - Content host renders **placeholders**, not real SPC charts / reports / tables.
 - AI panel is inert (no LLM).
-- “Dynamic refresh” is demonstrated via a manual **Refresh** control and
-  re-fetch on filter/pin/selection changes — no polling/WebSocket yet.
+- “Dynamic refresh” is demonstrated by re-fetching the tree from the API on
+  module/filter/pin changes (and details on selection) — no polling/WebSocket yet.
 - Pinned state is in-memory in the mock API (resets on full reload, since the
   mock seeds from JSON each session).
 
@@ -173,9 +175,10 @@ locked/disabled, green/red/yellow = healthy/violation/warning only.**
   colors”). All structural/dimensional values are ported 1:1 from the mock, but a
   disciplined **blue accent + green/red/yellow status** palette is applied per the
   written spec.
-- The right **details/actions blade** and the **breadcrumb** are reinstated: their
-  data exists in the source and the spec/notes require them, but they had been
-  dropped from the final render.
+- The right **details/actions blade** is reinstated (required by the design doc
+  §6.8 but not shown in the screenshots): it is closed by default — keeping the
+  content host full-width as in every screenshot — and toggled from the header.
+  The selected-object **breadcrumb/path** lives in that blade.
 - Scale is implemented with the CSS `zoom` property (as in the source mock); it
   adjusts overall density/size and is compensated so the layout still fills the
   viewport.

@@ -1,6 +1,7 @@
 import { useNavigator } from '../../app/NavigatorContext';
 import type { ActionAvailability } from '../../types';
 import { createLogger } from '../../services/logger';
+import { Breadcrumbs } from '../content/Breadcrumbs';
 import { Icon } from '../common/Icon';
 import { IconButton } from '../common/IconButton';
 import { ActionButton } from './ActionButton';
@@ -20,15 +21,8 @@ export function DetailsActionsBlade() {
   const { shell, selection, user } = useNavigator();
   const { details, actions } = selection;
 
-  if (!shell.detailsOpen) {
-    return (
-      <div className="details-collapsed">
-        <IconButton small title="Open details" onClick={shell.toggleDetails}>
-          <Icon name="chevronLeft" size={12} strokeWidth={2.4} />
-        </IconButton>
-      </div>
-    );
-  }
+  // Closed by default — content host stays full-width (toggled from the header).
+  if (!shell.detailsOpen) return null;
 
   // In production an action routes its owning module into the content host.
   const onInvoke = (a: ActionAvailability) =>
@@ -50,6 +44,13 @@ export function DetailsActionsBlade() {
         <div className="details__empty">Select an object to see its details and actions.</div>
       ) : (
         <div className="details__body">
+          {details.breadcrumb.length > 0 && (
+            <section>
+              <div className="details__section-label">PATH</div>
+              <Breadcrumbs path={details.breadcrumb} />
+            </section>
+          )}
+
           <section>
             <div className="details__section-label">ACCESS</div>
             <PermissionBadge role={user.roles[0] ?? 'USER'} label={details.accessLabel} />

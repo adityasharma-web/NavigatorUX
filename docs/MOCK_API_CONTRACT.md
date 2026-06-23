@@ -84,11 +84,10 @@ placeholderFields[]`.
 
 ## Dynamic refresh
 
-Pre-alpha simulates backend-driven updates via:
-
-- a manual **Refresh** control in the hierarchy blade (`useNavigatorTree.refresh`),
-- automatic re-fetch when the **module**, **filters**, **selection**, or
-  **pinned** set change.
+Pre-alpha simulates backend-driven updates via automatic re-fetch when the
+**module**, **filters**, **selection**, or **pinned** set change
+(`useNavigatorTree` also exposes a `refresh()` for an explicit trigger / future
+polling hook).
 
 Production options (not built yet): polling, SignalR/WebSockets, server-sent
 events, or a backend notification/event bus. The hook/service boundary is shaped

@@ -97,7 +97,9 @@ export function NavigatorProvider({
   // shell layout state
   const [railExpanded, setRailExpanded] = useState(true);
   const [bladeOpen, setBladeOpen] = useState(true);
-  const [detailsOpen, setDetailsOpen] = useState(true);
+  // Details blade is closed by default so the content host is full-width
+  // (matches the approved screenshots); opened via the header toggle.
+  const [detailsOpen, setDetailsOpen] = useState(false);
   const [aiOpen, setAiOpen] = useState(false);
   const [openMenu, setOpenMenu] = useState<MenuName | null>(null);
 
@@ -108,7 +110,6 @@ export function NavigatorProvider({
 
   const select = useCallback((id: string) => {
     setSelectedId(id);
-    setDetailsOpen(true);
   }, []);
 
   const shell = useMemo<ShellState>(

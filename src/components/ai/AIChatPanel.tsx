@@ -15,24 +15,24 @@ const SUGGESTED_PROMPTS = [
  * point for a future LLM / MCP / tools integration. See README › AI extension.
  */
 export function AIChatPanel() {
-  const { shell, selection } = useNavigator();
+  const { shell } = useNavigator();
   if (!shell.aiOpen) return null;
 
-  const context = selection.details?.title ?? 'the current selection';
-
   return (
-    <aside className="ai-panel" aria-label="Navigator AI">
+    <aside className="ai-panel" aria-label="Ask Sentient">
       <div className="ai-panel__head">
         <div className="ai-panel__title">
           <AiSparkleIcon size={16} />
-          Navigator AI
+          Ask Sentient
           <span className="ai-panel__beta">BETA</span>
         </div>
         <IconButton small plain title="Close" onClick={shell.toggleAi}>
           <Icon name="chevronRight" size={14} />
         </IconButton>
       </div>
-      <div className="ai-panel__intro">Ask about {context}, the tree path, or loaded content.</div>
+      <div className="ai-panel__intro">
+        Ask about the selected object, tree path, or loaded content.
+      </div>
       <div className="ai-panel__prompts">
         <div className="menu-label" style={{ marginBottom: 1 }}>
           SUGGESTED PROMPTS
@@ -49,7 +49,7 @@ export function AIChatPanel() {
           <span style={{ flex: 1 }}>Ask about this selection…</span>
           <Icon name="send" size={14} />
         </div>
-        <div className="ai-note">Concept — not connected in this pre-alpha</div>
+        <div className="ai-note">Concept — not connected in this mock</div>
       </div>
     </aside>
   );

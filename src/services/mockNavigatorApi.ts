@@ -93,7 +93,8 @@ function nodeMatchesFilter(node: TreeNode, f: ActiveFilter, userId: string): boo
     case 'type':
       return node.type === f.value;
     case 'status':
-      return node.status === f.value;
+      // "Locked" matches the node's locked flag; others match the status field.
+      return f.value === 'locked' ? !!node.locked : node.status === f.value;
     case 'pinned':
       return (pinStore[userId] ?? []).some((p) => p.id === node.id);
     default:

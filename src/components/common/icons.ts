@@ -64,6 +64,11 @@ export const ICON_PATHS: Record<string, string> = {
   zap: 'M22 12h-4l-3 9L9 3l-3 9H2',
   app: 'M2 3h20v14H2zM8 21h8M12 17v4M2 8h20',
   info: 'M12 22a10 10 0 100-20 10 10 0 000 20zM12 16v-4M12 8h.01',
+  panelRight: 'M3 4h18v16H3zM15 4v16',
+  github:
+    'M9 19c-5 1.5-5-2.5-7-3m14 6v-3.9a3.4 3.4 0 00-.9-2.6c3-.3 6.2-1.5 6.2-6.8a5.3 5.3 0 00-1.5-3.7 4.9 4.9 0 00-.1-3.7s-1.2-.3-3.9 1.5a13.4 13.4 0 00-7 0C6.1 1.8 4.9 2.1 4.9 2.1a4.9 4.9 0 00-.1 3.7 5.3 5.3 0 00-1.5 3.7c0 5.3 3.2 6.5 6.2 6.8a3.4 3.4 0 00-.9 2.6V22',
+  azureDevops: 'M12 2l9 5v10l-9 5-9-5V7zM12 7v10M7 9.5v5l5 2.8M17 9.5v5l-5 2.8',
+  documentation: 'M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8zM14 2v6h6M8 13h8M8 17h5',
 };
 
 /** Filled icons render with `fill` instead of `stroke`. */

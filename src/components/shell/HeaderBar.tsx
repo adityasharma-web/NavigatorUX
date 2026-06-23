@@ -1,5 +1,6 @@
 import { useNavigator } from '../../app/NavigatorContext';
 import { DotsGridIcon } from '../common/DotsGridIcon';
+import { Icon } from '../common/Icon';
 import { IconButton } from '../common/IconButton';
 import { AIChatButton } from '../ai/AIChatButton';
 import { AppearanceMenu } from '../settings/AppearanceMenu';
@@ -39,6 +40,14 @@ export function HeaderBar() {
 
       <AIChatButton />
       <NotificationButton />
+      <IconButton
+        active={shell.detailsOpen}
+        title="Details & actions panel"
+        aria-pressed={shell.detailsOpen}
+        onClick={shell.toggleDetails}
+      >
+        <Icon name="panelRight" size={15} />
+      </IconButton>
       <AppearanceMenu />
       <UserProfileMenu />
     </header>

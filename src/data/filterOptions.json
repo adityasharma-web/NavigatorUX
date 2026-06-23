@@ -2,7 +2,7 @@
   "configuration": [
     {
       "id": "site",
-      "label": "SITE / BLOCK",
+      "label": "BLOCK / SITE",
       "options": [
         { "label": "Farmers Branch", "kind": "tag" },
         { "label": "Livermore", "kind": "tag" },
@@ -12,12 +12,11 @@
     },
     {
       "id": "module",
-      "label": "MODULE / AREA",
+      "label": "MODULE",
       "options": [
         { "label": "Quality", "kind": "tag" },
-        { "label": "Lithography", "kind": "tag" },
-        { "label": "Lamination", "kind": "tag" },
-        { "label": "Process Control", "kind": "tag" }
+        { "label": "Process Control", "kind": "tag" },
+        { "label": "Reporting", "kind": "tag" }
       ]
     },
     {
@@ -26,6 +25,14 @@
       "options": [
         { "label": "IQA", "kind": "tag" },
         { "label": "Scrap", "kind": "tag" }
+      ]
+    },
+    {
+      "id": "area",
+      "label": "AREA",
+      "options": [
+        { "label": "Lithography", "kind": "tag" },
+        { "label": "Lamination", "kind": "tag" }
       ]
     },
     {
@@ -43,8 +50,8 @@
       "id": "status",
       "label": "STATUS",
       "options": [
-        { "label": "Has violations", "kind": "status", "value": "violation" },
-        { "label": "Warning", "kind": "status", "value": "warning" },
+        { "label": "Has Violations", "kind": "status", "value": "violation" },
+        { "label": "Locked", "kind": "status", "value": "locked" },
         { "label": "Pinned", "kind": "pinned" }
       ]
     }
@@ -52,7 +59,7 @@
   "reporting": [
     {
       "id": "site",
-      "label": "SITE / BLOCK",
+      "label": "BLOCK / SITE",
       "options": [
         { "label": "Farmers Branch", "kind": "tag" },
         { "label": "Livermore", "kind": "tag" }
@@ -62,15 +69,15 @@
       "id": "status",
       "label": "STATUS",
       "options": [
-        { "label": "Has violations", "kind": "status", "value": "violation" },
+        { "label": "Has Violations", "kind": "status", "value": "violation" },
         { "label": "Warning", "kind": "status", "value": "warning" }
       ]
     }
   ],
   "processControl": [
     {
-      "id": "module",
-      "label": "MODULE / AREA",
+      "id": "area",
+      "label": "AREA",
       "options": [
         { "label": "Lithography", "kind": "tag" },
         { "label": "Lamination", "kind": "tag" }
@@ -80,7 +87,7 @@
       "id": "status",
       "label": "STATUS",
       "options": [
-        { "label": "Has violations", "kind": "status", "value": "violation" }
+        { "label": "Has Violations", "kind": "status", "value": "violation" }
       ]
     }
   ]
